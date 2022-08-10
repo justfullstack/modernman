@@ -1,0 +1,19 @@
+body {
+    background: radial-gradient(#ccc, #fff)
+}
+
+
+.btn {
+    background: #000;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: rgb(255, 140, 0);
+}
+
+.btn:active {
+    scale: 0.98;
+}

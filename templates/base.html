@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <title>
+            {% block title %}
+                ModernMan | Store for the Stylish Man
+            {% endblock %} 
+        </title>
+        <style>
+            {% block style %}
+                
+            {% endblock %} 
+        </style>
+    </head>
+    <body id="page-top">
+        <nav class="bg-white sticky-top navbar-md-collapse" role="navigation" >
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#navbar-collapse">
+                    <i class="fas fa-bars h1"></i>
+                </button>
+                <a class="navbar-brand" href="#">TutorialsPoint</a>
+            </div>
+
+        </nav>
+        <div id="wrapper">
+            <div class="d-flex flex-column" id="content-wrapper">
+                <div id="content">
+                </div>
+            </div>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>
+
+
