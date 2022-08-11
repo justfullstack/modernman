@@ -2,7 +2,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib import auth
-from customauth.forms import UserCreationForm
+from customauth.forms import UserCreationForm, AuthenticationForm
 from customauth.models import CustomUser
 
 
@@ -36,3 +36,12 @@ class AuthenticationView(TestCase):
         self.assertTrue(CustomUser.objects.filter(
             email=post_data["email"]).exists())
         mock_send.assert_called_once()
+
+    def testUserAuthenticationPageLoadsCorrectly(self):
+
+        response = self.client.get(reverse("login"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "auth/login.html")
+        self.assertContains(response, "Welcome Back")
+        self.assertIsInstance(response.context["form"], AuthenticationForm)

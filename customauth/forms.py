@@ -97,3 +97,42 @@ class UserCreationForm(forms.Form):
 
     for field in [is_subscribed]:
         field.widget.attrs.update({'class': 'text-right'})
+
+
+
+
+
+
+class AuthenticationForm(forms.Form):
+    email = forms.EmailField(
+                            label='Email address', 
+                            max_length=20, 
+                            required=True, 
+                            validators=[ validators.validate_email, ], 
+                            )
+
+    password = forms.CharField(
+                            label='Password',
+                            strip=False,  
+                            widget=forms.PasswordInput(render_value=False), 
+                            min_length=8, 
+                            max_length=60, 
+                            required=True
+                            )
+
+    remember_me = forms.BooleanField(
+                            label="Remember Me", 
+                            initial=False,  
+                            widget=forms.CheckboxInput(), 
+                            required=False
+                            )
+
+
+    for field in [email, password ]:
+        field.widget.attrs.update({'class': 'form-control'})
+
+    for field in [email, password,  ]:
+        field.widget.attrs.update({'placeholder': field.label})
+
+    for field in [remember_me  ]:
+        field.widget.attrs.update({'label': field.label})

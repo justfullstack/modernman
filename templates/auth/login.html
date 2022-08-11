@@ -1,0 +1,162 @@
+{% extends "auth/base_auth.html" %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+
+
+
+{% load static %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-12 col-xl-10">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-6 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-login-image" style="background-image: url({% static 'img/avatars/image3.jpeg' %});"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h2 class="mb-1">Welcome Back!</h2>
+                                <p class="text-center">All fields are required</p>
+                            </div>
+
+                            <hr/>
+
+
+                            {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-error">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+
+                            <form class="user" 
+                            method="POST" >
+                            {% csrf_token %}
+
+                            <div class="form-group row  mb-3">
+                                {% if form.non_field_errors %}
+                                    {% for error in form.non_field_errors %}
+                                        <div class="alert alert-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            
+
+                            <!-- email -->
+                            <div class="form-group mb-3  {% if form.email.errors %} is-invalid {% endif %}">
+                                
+                                {{ form.email }}
+                                
+                            </div>
+
+
+                            {% if  form.email.errors %}
+                                <div class="form-group mb-3 alert alert-error email__feeedback--area">
+                                    
+                                    {{ form.email.errors }}
+                                    
+                                </div>
+                            {% endif %}
+
+                            <!-- password -->
+                            <div class="form-group mb-1 {% if form.password1.errors %} is-invalid  invalid-feedback  {% endif %}">
+                                
+                                {{ form.password }}
+                                
+                            </div>
+
+                            {% if  form.password.errors %}
+                                <div class="form-group mb-1 alert alert-error password1__feeedback--area">
+                                    
+                                    {{ form.password.errors }}
+                                    
+                                </div>
+                                
+                                <div class="text-center">
+                                    <div class="small">
+                                        Forgot your password?<a href="{% url 'login' %}"> Reset password</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+
+                            <div class="row mb-2" >
+                                <b class=" text-right  toggle__password-visibility w-100">SHOW</b>
+                            </div>
+
+
+
+                            <!-- submit btn -->
+                            <button  
+                                class="btn  mb-2 d-block   w-100  bg-black text-white {% if form.errors %} disabled  {% endif %}" 
+                                type="submit"
+                                id="btn__submit--signup">
+                                Log In
+                            </button>
+
+                            
+
+                            <!-- permissions checkbboxes -->
+                            <div class="form-group mb-3 row">
+                                 
+                                <div class="col-sm-6  mb-sm-0">
+                                    {{ form.remember_me }} {{ form.remember_me.label }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group  row">
+                                <div class="col-5">
+                                    <hr>
+                                </div>
+
+                                <div class="col">
+                                    <p class="text-center"> OR </p>
+                                </div>
+
+                                <div class="col-5">
+                                    <hr>
+                                </div>
+                            </div>
+                            
+
+
+                            <!-- register with google -->
+                            <a class="btn-primary d-block btn-google w-100  mb-2" role="button">
+                                <i class="fab fa-google"></i>&nbsp; Register with Google
+                            </a>
+
+                            <!-- register with facebook -->
+                            <a class="btn-primary d-block btn-facebook  w-100" role="button">
+                                <i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook
+                            </a>
+
+
+                            </form>
+
+
+                            
+                            <div class="text-center mt-2">
+                                <div class="small">Not a member yet?<a href="{% url 'signup' %}"> Create an Account!</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+{% endblock %} 
