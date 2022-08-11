@@ -1,0 +1,102 @@
+{% extends 'auth/base_auth.html' %}
+{% load static %}
+
+{% block style %}
+    .names{
+        justify-content: space-between;
+    }
+{% endblock %}
+
+{% block content %} 
+
+     <div class="card shadow-lg o-hidden border-0 my-5">
+        <div class="card-body p-0">
+            <div class="row">
+
+                <div class="col-lg-5 d-none d-lg-flex">
+                    <div class="flex-grow-1 bg-register-image"
+                        style="background-image: url({% static 'img/avatars/image2.jpeg' %});">
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h4 class="text-dark">Join ModernMan</h4>
+                            <p class="text-center mb-4">All fields are required</p>
+                        </div>
+
+                        <hr>
+
+
+                        
+
+
+                        <form class="user" 
+                            method="POST" >
+                            {% csrf_token %}
+
+                            <div class="form-group mb-2 row names ">
+                                <div class="col-5 ">
+                                    {{ form.first_name }}
+                                </div>
+
+                                <div class="col-5  ">
+                                    {{ form.last_name }}
+                                </div>
+                                
+                            </div>
+
+
+                            <div class="form-group mb-2">
+                                {{ form.email }}
+                            </div>
+
+
+                            <div class="form-group mb-2">
+                                {{ form.password1 }}
+                            </div>
+
+
+                            <div class="form-group mb-2">
+                                {{ form.password2 }}
+                            </div>
+                            <button type="submit" class="btn btn-submit  w-100 mb-2 ">
+                                Sign Up
+                            </button>
+
+                            <div class="row mb-2">
+                                <div class="col-5"> <hr> </div>
+                                <div class="col text-center">OR</div>
+                                <div class="col-5"> <hr> </div>
+                            </div>
+
+
+                            <!-- register with google -->
+                            <button class="btn-block d-block btn-google w-100  mb-2" role="button">
+                                <i class="fab fa-google"></i>&nbsp; Register with Google
+                            </button>
+
+                            <!-- register with facebook -->
+                            <button class="btn-block  d-block btn-facebook  w-100 mb-2" role="button">
+                                <i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook
+                            </button>
+
+                            <div class="form-group mb-2">
+                                {{ form.is_subscribed }} {{ form.is_subscribed.label }}
+                            </div>
+
+                            <hr>
+                                
+                        </form>
+
+                        <div class="text-center">
+                            <div class="small">Already a member?<a href="#"> Log In</a> instead!</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
