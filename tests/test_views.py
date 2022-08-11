@@ -45,3 +45,28 @@ class AuthenticationView(TestCase):
         self.assertTemplateUsed(response, "auth/login.html")
         self.assertContains(response, "Welcome Back")
         self.assertIsInstance(response.context["form"], AuthenticationForm)
+
+    def checkUserAuthenticationWorks(self):
+        user = CustomUser.objects.create_user(
+            first_name="First",
+            last_name="Last",
+            email="user1@gmail.com",
+            password="my_pAssword!",
+            is_subscribed=True
+        )
+
+        user.save()
+
+        login_post_data = {
+            "email": user.email,
+            "password": user.password,
+        }
+
+        response = self.client.post(reverse("login"), login_post_data)
+
+        # confirm redirect
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(CustomUser.objects.filter(
+            email=user.email).exists())
+
+        self.assertTrue(auth.get_user(self.client).is_authenticated)

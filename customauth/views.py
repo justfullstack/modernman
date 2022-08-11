@@ -1,13 +1,15 @@
 from base64 import urlsafe_b64decode, urlsafe_b64encode
+from django.utils import timezone
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
+from django.contrib.auth import login
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.views import View
-from customauth.forms import UserCreationForm
+from customauth.forms import AuthenticationForm, UserCreationForm
 import logging
 
 
@@ -50,7 +52,7 @@ class SignupView(View):
                     password=password,
                     is_subscribed=is_subscribed
                 )
-                
+
                 user.is_active = False
                 user.save()
 
@@ -120,3 +122,47 @@ def activationView(request, uidb64, token):
 
     messages.success(request, "Account activated successfully!")
     return redirect('login')
+
+
+class AuthenticationView(View):
+    def get(self, request):
+
+        form = AuthenticationForm()
+        return render(request, "auth/login.html", {"form": form})
+
+    def post(self, request):
+
+        form = AuthenticationForm(request.POST)
+
+        email = request.POST.get("email")
+        raw_password = request.POST.get("password")
+
+        try:
+            # ensure user exists
+            user = CustomUser.objects.get(email=email)
+            # ensure user account is activated
+            if not user.is_active:
+                messages.error(
+                    request, "Your account is inactive. Please check your mailbox for an activation link!")
+                return redirect('login')
+
+            if user.check_password(raw_password):
+                login(request, user)
+
+                # update user last login
+                user.last_login = timezone.now()
+
+                messages.success(
+                    request, f"Welcome {user.first_name}, You're now logged in.")
+                return redirect('profile')
+            else:
+                messages.error(request, "Wrong password!")
+
+        except CustomUser.DoesNotExist:
+            messages.error(request, "A user with that email was not found!")
+
+        # ensure user is active
+
+        # check pasword
+        # login
+        return render(request, "auth/login.html", {"form": form})
