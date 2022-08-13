@@ -1,6 +1,11 @@
+from decimal import Decimal
 from django.test import TestCase
 from customauth.models import CustomUser
 from django.contrib.auth.models import Group
+from shop.models import Product
+from django.utils.text import slugify
+
+from tests.factories import ProductFactory
 
 
 class TestModel(TestCase):
@@ -50,3 +55,29 @@ class TestModel(TestCase):
         user.refresh_from_db()
 
         self.assertTrue(user.is_subscribed)
+
+
+class TestShopModel(TestCase):
+    def testProductActiveManagerWorks(self):
+        Product.objects.create(
+            name='product One',
+            slug=slugify('Product One'),
+            price=Decimal('3130.00'),
+            active=False
+        )
+
+        Product.objects.create(
+            name='Product Two',
+            price=Decimal('3130.00'),
+            slug=slugify('Product Two'),
+            active=True
+        )
+
+        Product.objects.create(
+            name='Product Three',
+            price=Decimal('170.00'),
+            slug=slugify('Product Three'),
+            active=True
+        )
+
+        self.assertEqual(Product.objects.active().count(), 2)
