@@ -1,0 +1,136 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock  %}
+
+
+
+
+{% block content %}
+    <!-- products section starts  -->
+    <section class="products mt-5 mb-3">
+
+        <h1 class="section__heading mb-3">
+             All <span>Products</span> 
+        </h1>
+
+        <div class="box-container">
+            
+    
+            {% for product in page_obj %} 
+                <div class="box">
+
+                    <div class="image">
+                        <a href="#">
+                            <img src="{% static 'img/products/product-1.jpg' %}"  class="main-img" alt="">
+                            <img src="{% static 'img/products/product-1-hover.jpg' %}" class="hover-img" alt="">
+                        </a>
+                        
+                        <div class="icons">
+                            <a href="#" class="fas fa-shopping-cart"></a>
+                            <a href="#" class="fas fa-search-plus"></a>
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" class="fas fa-share"></a>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div class="product-name">
+                            <h3>{{ product.name.title }}</h3>
+                        </div>
+                        
+                        <div class="price">
+                            Ksh. {{ product.price }}
+                            <span>$399.99</span>
+                        </div>
+
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- products section ends -->
+
+    <div class="container justify-content-center align-items-baseline">
+        <div class="row">
+            <div class="col-5">
+                <hr>
+            </div>
+
+
+            <div class="col">
+            <h3 class="text-center border text-center">OR</h3>
+            </div>
+
+
+            <div class="col-5">
+                <hr>
+            </div>
+        </div>
+    </div>  
+
+
+
+    <section class="container category mb-5">
+
+        <div class="section__heading mb-3">
+            Shop by Category
+        </div>
+
+              
+
+        <div class="row box-container">
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img1.png' %}"  alt="">
+                <h3>televisions</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img2.png' %}" alt="">
+                <h3>smartphones</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img3.png' %}"  alt="">
+                <h3>headphones</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img4.png' %}"  alt="">
+                <h3>smartwatches</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img5.png' %}"  alt="">
+                <h3>games</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img6.png' %}"  alt="">
+                <h3>camera</h3>
+            </a>
+
+            <a href="#" class="box  shadow ">
+                <img src="{% static 'img/products/cat_img7.png' %}"  alt="">
+                <h3>speakers</h3>
+            </a>
+
+        </div>
+
+    </section> 
+
+
+
+{% endblock  %} 
