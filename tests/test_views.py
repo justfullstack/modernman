@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib import auth
 from customauth.forms import UserCreationForm, AuthenticationForm
 from customauth.models import CustomUser
+from shop.models import Product
 
 
 class AuthenticationView(TestCase):
@@ -70,3 +71,32 @@ class AuthenticationView(TestCase):
             email=user.email).exists())
 
         self.assertTrue(auth.get_user(self.client).is_authenticated)
+
+
+class TestShopViews(TestCase):
+    def testProductDetaiPageLoadCorrectly(self):
+
+        def generateSlug(text):
+            slug = ''
+            for word in text.split()[:-1]:
+                slug += word
+                slug += '-'
+            slug += text.split()[-1]
+            return slug.strip('.').lower()
+
+        product = Product.objects.create(
+            name='Product One Test',
+            slug='product-one-test',
+            price=3452,
+            ratings=5
+
+        )
+
+        product.save()
+
+        response = self.client.get(
+            reverse("product", kwargs={'slug': product.slug}))
+        self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(
+        #    response, "  shop/product_detail.html", count=1)
+        self.assertContains(response, product.name)
