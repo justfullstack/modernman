@@ -1,10 +1,12 @@
+from decimal import Decimal
 from unittest.mock import patch
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib import auth
 from customauth.forms import UserCreationForm, AuthenticationForm
 from customauth.models import CustomUser
-from shop.models import Product
+from shop.models import Cart, CartLine, Product
+from django.utils.text import slugify
 
 
 class AuthenticationView(TestCase):
@@ -73,16 +75,8 @@ class AuthenticationView(TestCase):
         self.assertTrue(auth.get_user(self.client).is_authenticated)
 
 
-class TestShopViews(TestCase):
-    def testProductDetaiPageLoadCorrectly(self):
-
-        def generateSlug(text):
-            slug = ''
-            for word in text.split()[:-1]:
-                slug += word
-                slug += '-'
-            slug += text.split()[-1]
-            return slug.strip('.').lower()
+class TestShopView(TestCase):
+    def testProductDetailPageLoadCorrectly(self):
 
         product = Product.objects.create(
             name='Product One Test',
@@ -96,7 +90,32 @@ class TestShopViews(TestCase):
 
         response = self.client.get(
             reverse("product", kwargs={'slug': product.slug}))
+
         self.assertEqual(response.status_code, 200)
         # self.assertTemplateUsed(
         #    response, "  shop/product_detail.html", count=1)
         self.assertContains(response, product.name)
+
+    def testAddToCartWorks(self):
+        user = CustomUser.objects.create_user(
+            first_name='First',
+            last_name='Last',
+            email='email@domain.ext',
+            password='Qwerty_keyboardr!',
+        )
+
+        product = Product.objects.create(
+            name='product One',
+            slug=slugify('Product One'),
+            price=Decimal('3130.00')
+        )
+
+        self.client.force_login(user)
+
+        response = self.client.get(
+            reverse("add-to-cart"), {"product_id": product.id}
+        )
+
+        self.assertTrue(
+            Cart.objects.filter(user=user).exists()
+        )
