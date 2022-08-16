@@ -1,11 +1,11 @@
 from decimal import Decimal
 from django.test import TestCase
+from faker import Faker
 from customauth.models import CustomUser
 from django.contrib.auth.models import Group
 from shop.models import Product
 from django.utils.text import slugify
-
-from tests.factories import ProductFactory
+from shop.models import Cart, CartLine
 
 
 class TestModel(TestCase):
@@ -81,3 +81,41 @@ class TestShopModel(TestCase):
         )
 
         self.assertEqual(Product.objects.active().count(), 2)
+
+    def testProductCart(self):
+
+        user = Faker()
+
+        first_name = user.first_name()
+        last_name = user.last_name()
+        email = user.email()
+        password = 'Qwerty_Keyboard!'
+
+        user = CustomUser.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password
+        )
+
+        product = Product.objects.create(
+            name='Product Name',
+            price=100,
+            slug='product-name'
+        )
+
+        cart1 = Cart.objects.create()
+
+        self.assertTrue(cart1.user == None)
+        self.assertTrue(cart1.status == 10)
+
+        CartLine.objects.create(cart=cart1, product=product, quantity=3)
+
+        self.assertEqual(cart1.count(), 1)
+
+        cart2 = Cart.objects.create(user=user)
+
+        CartLine.objects.create(cart=cart2, product=product, quantity=3)
+
+        self.assertTrue(cart2.user == user)
+        self.assertEqual(cart2.count(), 1)

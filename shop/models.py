@@ -1,8 +1,9 @@
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 import logging
 
-from matplotlib.image import thumbnail
+from sympy import product
+from customauth.models import CustomUser
 
 
 logger = logging.getLogger(__name__)
@@ -69,3 +70,48 @@ class Product(models.Model):
     def is_in_stock(self):
         '''returns true if product in stock'''
         return self.count > 0
+
+
+class Cart(models.Model):
+    """a cart for a user=user or user=None if not authenticated"""
+
+    OPEN = 10
+    SUBMITTED = 20
+
+    STATUSES = [
+        (OPEN, "Open"),
+        (SUBMITTED, "Submitted")
+    ]
+
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
+
+    status = models.IntegerField(
+        choices=STATUSES,
+        default=OPEN
+    )
+
+    def is_empty(self):
+        return self.cartline_set.all().count() == 0
+
+    def count(self):
+        return self.cartline_set.all().count()
+
+    def totalPrice(self):
+        pass
+
+
+class CartLine(models.Model):
+    '''links back to the Cart'''
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(
+        default=1, validators=[MinValueValidator(1)])
+
+    def price(self):
+        '''return the price of each product in cart'''
+        return self.product.price * self.quantity
