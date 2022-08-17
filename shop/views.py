@@ -1,6 +1,8 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import ListView, DetailView
+from shop.forms import CartLineFormSet
 from shop.models import Cart, CartLine, Product, ProductTag
 from django.contrib import messages
 
@@ -65,20 +67,40 @@ def addToCart(request):
         cart=cart, product=product)
 
     # if cart was already initiated
+
     if not created:
-
-        cartline.quantity += 1
+        # if product already in cart, do nothing
+        # send message
+        messages.error(
+            request, f"'{product.name.title().strip('.')}' already in the cart!")
+    else:
+        cart.count += 1
         cartline.save()
- 
 
-    messages.success(
-        request, f"{product.name.title()} successfully added to the cart!")
+        messages.success(
+            request, f"'{product.name.title().strip('.')}' successfully added to the cart!")
 
-    # return
+    return redirect(reverse("cart"))
 
-    return redirect(
-        reverse(
-            "product",
-            args=(product.slug,)
-        )
-    )
+
+def manageCart(request):
+    if not request.cart:
+        return render(request, "shop/cart.html", {"formset": None})
+
+    # submission will be handled when the form is submitted
+    # through a POST request
+    if request.method == "POST":
+        # process form
+        formset = CartLineFormSet(request.POST,  instance=request.cart)
+        if formset.is_valid():
+            formset.save()
+    else:
+        # GET
+        formset = CartLineFormSet(instance=request.cart)
+
+    # render no formset if the user does not have a cart yet
+    # or has one but it is empty
+    if request.cart.is_empty():
+        return render(request, "shop/cart.html", {"formset": None})
+
+    return render(request, "shop/cart.html", {"formset": formset})

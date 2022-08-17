@@ -1,0 +1,92 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+
+{% block title %}
+    My Cart
+{% endblock  %}
+
+
+
+{% block content %} 
+
+    <h1 class="heading section__heading mb-5 text-center">My  shoppping <span>Cart</span></h1>
+
+    <!-- shopping cart section starts  -->
+
+    <section class="shopping-cart">
+        <div class="box-container">
+            {% if formset %}
+                {{ formset.management_form }}
+
+                {% for form in formset %}
+
+                    <!-- template renders the product name, 
+                    (excluded by the form), by accessing the model 
+                    directly through instance  -->
+
+                    <div class="box">
+                        <i class="fas fa-times"></i>
+                        <img src="{% static 'img/products/product-1.jpg' %}" alt="">
+                        {{ form.instance.product.thumbnail }}
+
+                        <div class="content">
+                            <h3>{{ form.instance.product.name }}</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                <!--  
+                                    A requisite for formsets to work is to render 
+                                    the management_form attribute in the template  
+                                -->
+                                <span>quantity : </span>
+                                <input type="number" name="" value="1" id="">{{ form.quantity }}
+                            </form>
+                            <div class="price">$249.99 <span>$399.99</span></div>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+        </div>
+
+
+        <button type="submit" class="btn-lg btn ">
+            Update Cart
+        </button>
+
+
+        <div class="cart-total">
+            <h3> subtotal : <span>$1499.94</span> </h3>
+            <h3> discount : <span>-$99.94</span> </h3>
+            <h3> subtotal : <span>$1400.00</span> </h3>
+        </div>
+
+        {% if user.is_authenticated %}
+            <a href="#" class="btn">Check Out</a>
+        {% else  %}
+            <a href="{% url 'signup' %}?next={% url 'select-address' %}" class="btn">
+                Sign Up
+            </a>
+
+            <a href="{% url 'login' %}?next={% url 'select-address' %}"  class="btn">
+                Log In
+            </a>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center">
+            <p>Your cart is empty.</p>
+            <br>
+            <i class="fas  fa-shopping-cart  fa-fw h4 text-gray-400" ></i>
+        </div>
+        {% endif %}
+
+    </section>
+
+    <!-- shopping cart section ends -->
+
+
+
+
+{% endblock  %}
