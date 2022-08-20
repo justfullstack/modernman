@@ -19,14 +19,13 @@ class ProductListView(ListView):
         # get tag from link
         if tag == "all" or tag == "":
             self.tag = None
+            products = Product.objects.active()
         else:
             self.tag = get_object_or_404(ProductTag, slug=tag)
 
         # use tag (if any) to retreive data
         if self.tag is not None:
             products = Product.objects.active().filter(tags=self.tag)
-        else:
-            products = Product.objects.active()
 
         return products.order_by("name")
 

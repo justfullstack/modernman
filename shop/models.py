@@ -2,7 +2,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import logging
 
-from sympy import product
 from customauth.models import CustomUser
 
 
@@ -52,8 +51,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     discount_price = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, default=0.00)
-    ratings = models.DecimalField('ratings', max_digits=4, decimal_places=2, default=0.00, validators=[
-                                  MaxValueValidator(5.00, 'Ratings must be between 1 and 5.')])
+    # ratings = models.DecimalField('ratings', max_digits=4, decimal_places=2, default=0.00, validators=[
+    #                               MaxValueValidator(5.00, 'Ratings must be between 1 and 5.')])
     count = models.IntegerField(blank=False, default=1)
     slug = models.SlugField(max_length=48, unique=True, blank=False)
     active = models.BooleanField(default=True)
