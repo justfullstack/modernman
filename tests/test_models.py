@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.test import TestCase
 from faker import Faker
+from accounts.models import Address
 from customauth.models import CustomUser
 from django.contrib.auth.models import Group
 from shop.models import Product
@@ -8,7 +9,7 @@ from django.utils.text import slugify
 from shop.models import Cart, CartLine
 
 
-class TestModel(TestCase):
+class TestAuthModel(TestCase):
     def testCustomUserModel(self):
         user = CustomUser.objects.create_user(
             first_name="First",
@@ -119,3 +120,84 @@ class TestShopModel(TestCase):
 
         self.assertTrue(cart2.user == user)
         self.assertEqual(cart2.count(), 1)
+
+    def testCreateOrderWorks(self):
+        user = Faker()
+
+        first_name = user.first_name()
+        last_name = user.last_name()
+        email = user.email()
+        password = 'Qwerty_Keyboard!'
+
+        p1 = Product.objects.create(
+            name='product Three',
+            slug=slugify('Product Three'),
+            price=Decimal('3130.00'),
+        )
+
+        p2 = Product.objects.create(
+            name='product Four',
+            slug=slugify('Product Four'),
+            price=Decimal('3130.00'),
+        )
+
+        user = CustomUser.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password,
+        )
+
+        billing = Address.objects.create(
+            user=user,
+            title='MR.',
+            name="John Kimball",
+            address="127 Kilimani",
+            town='Nairobi',
+            city="Nairobi",
+            county='047',
+            country="KE",
+
+        )
+
+        shipping = Address.objects.create(
+            user=user,
+            title='MR.',
+            name="John Kimball",
+            address="127 Kilimani",
+            town='Nairobi',
+            city="Nairobi",
+            county='047',
+            country="KE",
+        )
+
+        cart = Cart.objects.create(user=user)
+
+        CartLine.objects.create(
+            cart=cart, product=p1
+        )
+
+        CartLine.objects.create(
+            cart=cart, product=p2
+        )
+
+        with self.assertLogs("shop.models", level="INFO") as logs:
+            order = cart.createOrder(billing, shipping)
+
+        self.assertGreaterEqual(len(logs.output), 1)
+
+        order.refresh_from_db()
+
+        self.assertEquals(order.user, user)
+
+        self.assertEquals(order.billing_address, "127 Kilimani")
+
+        self.assertEquals(order.shipping_address, "127 Kilimani")
+
+        #  more checks to be added
+        self.assertEquals(order.lines.all().count(), 2)
+
+        lines = order.lines.all()
+
+        self.assertEquals(lines[0].product, p1)
+        self.assertEquals(lines[1].product, p2)
