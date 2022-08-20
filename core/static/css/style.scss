@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+}
+
+
+/*================================= START PRODUCT LIST ============================================*/
+.products {
+
+    .box-container {
+        @include grid(31rem);
+
+        .box {
+            border: $border;
+            text-align: center;
+            background: $white;
+            box-shadow: $box-shadow;
+            border-radius: .5rem;
+            overflow: hidden;
+
+            &:hover .image {
+
+                .hover-img {
+                    display: inline-block;
+                }
+
+                .main-img {
+                    display: none;
+                }
+
+                .icons {
+                    left: 1rem;
+                }
+            }
+
+            .image {
+                position: relative;
+
+                img {
+                    height: 30rem;
+                    animation: fadeIn .2s linear;
+                }
+
+                .hover-img {
+                    display: none;
+                }
+
+                .icons {
+                    position: absolute;
+                    top: 0;
+                    left: -7rem;
+
+                    a {
+                        display: block;
+                        margin-top: 1rem;
+                        height: 4.5rem;
+                        width: 4.5rem;
+                        line-height: 4.5rem;
+                        font-size: 1.7rem;
+                        border-radius: 50%;
+                        color: $white;
+                        background: $black;
+
+                        &:hover {
+                            background: $blue;
+                        }
+                    }
+                }
+            }
+
+            .content {
+                padding: 2rem;
+
+                h3 {
+                    font-size: 2rem;
+                    color: $black;
+                }
+
+                .price {
+                    font-size: 2.2rem;
+                    color: $blue;
+                    padding-bottom: .7rem;
+                    padding-top: .5rem;
+
+                    span {
+                        color: $light-color;
+                        font-size: 1.5rem;
+                        text-decoration: line-through;
+                    }
+                }
+
+                .stars {
+
+                    i {
+                        font-size: 1.7rem;
+                        color: $gold;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*================================= END PRODUCT LIST ============================================*/
+
+
+/*=============================== START PRODUCTS CATEGORY =============================================*/
+.category {
+
+    .box-container {
+        @include grid(15rem);
+
+        .box {
+            text-align: center;
+            border-radius: .5rem;
+            border: $border;
+            padding: 2rem;
+            background: $white;
+            box-shadow: $box-shadow;
+
+            &:hover {
+                background: $black;
+
+                h3 {
+                    color: $white;
+                }
+            }
+
+            img {
+                height: 8rem;
+                margin-bottom: .5rem;
+            }
+
+            h3 {
+                font-size: 1.7rem;
+                color: $black;
+            }
+        }
+    }
+}
+
+/*=============================== END PRODUCT CATEGORY =============================================*/

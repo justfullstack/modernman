@@ -1,3 +1,36 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+}
+
+html {
+    overflow-x: hidden;
+    font-size: 62.5%;
+}
+
+html::-webkit-scrollbar {
+    width: 1rem;
+    color: rgb(255, 140, 0);
+}
+
+html::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: rgb(255, 140, 0);
+    border-radius: 5rem;
+}
+
 body {
     background: radial-gradient(#ccc, #fff)
 }
@@ -17,3 +50,255 @@ body {
 .btn:active {
     scale: 0.98;
 }
+
+
+.section__heading {
+    font-weight: 800;
+    margin: 0.7em 0;
+    color: rgb(255, 152, 34);
+    font-size: 3.2em;
+
+}
+
+
+
+/*==================    PRODUCT LIST STARTS ====================*/
+
+
+.products .box-container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(31rem, 1fr));
+    gap: 2rem;
+}
+
+.products .box-container .box {
+    border: 0.2rem solid #333;
+    text-align: center;
+    background: #fff;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+.products .box-container .box:hover .image .hover-img {
+    display: inline-block;
+}
+
+.products .box-container .box:hover .image .main-img {
+    display: none;
+}
+
+.products .box-container .box:hover .image .icons {
+    left: 1rem;
+}
+
+.products .box-container .box .image {
+    position: relative;
+}
+
+.products .box-container .box .image img {
+    height: 30rem;
+    -webkit-animation: fadeIn .2s linear;
+    animation: fadeIn .2s linear;
+}
+
+.products .box-container .box .image .hover-img {
+    display: none;
+}
+
+.products .box-container .box .image .icons {
+    position: absolute;
+    top: 0;
+    left: -7rem;
+}
+
+.products .box-container .box .image .icons a {
+    display: block;
+    margin-top: 1rem;
+    height: 4.5rem;
+    width: 4.5rem;
+    line-height: 4.5rem;
+    font-size: 1.7rem;
+    border-radius: 50%;
+    color: #fff;
+    background: #333;
+}
+
+.products .box-container .box .image .icons a:hover {
+    background: #0984e3;
+}
+
+.products .box-container .box .content {
+    padding: 2rem;
+}
+
+.products .box-container .box .content h3 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.products .box-container .box .content .price {
+    font-size: 2.2rem;
+    color: #0984e3;
+    padding-bottom: .7rem;
+    padding-top: .5rem;
+}
+
+.products .box-container .box .content .price span {
+    color: #666;
+    font-size: 1.5rem;
+    text-decoration: line-through;
+}
+
+.products .box-container .box .content .stars i {
+    font-size: 1.7rem;
+    color: gold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*==================    PRODUCT LIST ENDS ====================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*==================    PRODUCT CATEGORY STARTS ====================*/
+.category .box-container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (minmax(15rem, 1fr))[auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem;
+}
+
+.category .box-container .box {
+    text-align: center;
+    border-radius: .5rem;
+    border: 0.2rem solid #333;
+    padding: 2rem;
+    background: #fff;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.category .box-container .box:hover {
+    background: #333;
+}
+
+.category .box-container .box:hover h3 {
+    color: #fff;
+}
+
+.category .box-container .box img {
+    height: 8rem;
+    margin-bottom: .5rem;
+}
+
+.category .box-container .box h3 {
+    font-size: 1.7rem;
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*==================    PRODUCT CATEGORY ENDS ====================*/
