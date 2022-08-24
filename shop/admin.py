@@ -2,6 +2,8 @@ import logging
 from django.contrib import admin
 from django.utils.html import format_html
 
+from shop.models import CartLine, Order, OrderLine
+
 logger = logging.getLogger(__name__)
 
 
@@ -96,3 +98,163 @@ class ProductImageAdmin(admin.ModelAdmin):
 
     def product_name(self, obj):
         return obj.product.name
+
+
+# For models like Cart and Order,
+# which have foreign keys pointing from their relevant line model,
+# we need to use an Inline to show the related data.
+
+# visualize cartline in admin
+class CartLineInline(admin.TabularInline):
+    model = CartLine
+    raw_id_fields = ('product', )
+
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', 'count', )
+    list_editable = ('status', )
+    list_filter = ('status', )
+    inlines = (CartLineInline, )
+
+
+# visualize orderline in admin
+class OrderLineInline(admin.TabularInline):
+    model = OrderLine
+    raw_id_fields = ('product', )
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', )
+    list_editable = ('status', )
+    list_filter = ('status', 'shipping_county', 'date_added', )
+    inlines = (OrderLineInline, )
+
+    fieldsets = (
+        (None, {'fields':
+                (
+                    'user',
+                    'status'
+                )
+                }
+         ),
+
+        ('Billing Info', {
+            'fields': (
+                'billing_name',
+                'billing_address',
+                'billing_postal_code',
+                'billing_county',
+                'billing_city',
+                'billing_country'
+            )
+
+        },
+        ),
+
+
+        ('Shipping Info',  {
+            'fields': (
+                'shipping_name',
+                'shipping_address',
+                'shipping_postal_code',
+                'shipping_county',
+                'shipping_city',
+                'shipping_country'
+            )
+
+        },
+        ),
+
+    )
+
+ 
+
+# Employees need a custom version of the order views because
+# they are not allowed to change products already purchased
+# without adding and removing lines
+
+class CentralOfficeOrderInline(admin.TabularInline):
+    model = OrderLine
+    readonly_fields = ('product', )
+
+
+class CentralOfficeOrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status')
+    list_editable = ('status', )
+    readonly_fields = ('user', )
+    list_filter = ('status', 'shipping_country', 'date_added', )
+    inlines = (CentralOfficeOrderInline, )
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'user',
+                'status'
+            )
+        }
+        ),
+
+        ('Billing Info', {
+            'fields': (
+                'billing_name',
+                'billing_address',
+                'billing_postal_code',
+                'billing_county',
+                'billing_city',
+            )
+        }
+        ),
+
+        ('Shippping Info', {
+            'fields': (
+                'shipping_name',
+                'shipping_address',
+                'shipping_postal_code',
+                'shipping_county',
+                'shipping_city',
+            )
+        }
+        ),
+    )
+
+    # Dispatchers do not need to see billing info
+
+
+class DispatchersOrderAdmin(admin.ModelAdmin):
+    """
+    overrides the get_queryset() method because the dispatch office only needs to see the
+    orders that have been marked as 'PAID' already on which  they only need to see the shipping address.
+    """
+    list_display = ('id', 'shipping_name', 'date_added', 'status')
+    list_filter = ('status', 'shipping_country', 'date_added', )
+    inlines = (CentralOfficeOrderInline, )
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'user',
+                'status'
+            )
+        }
+        ),
+
+
+
+        ('Shippping Info', {
+            'fields': (
+                'shipping_name',
+                'shipping_address',
+                'shipping_postal_code',
+                'shipping_county',
+                'shipping_city',
+            )
+        }
+        ),
+    )
+
+# Dispatchers are only allowed to see orders that
+# are ready to be shipped
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(status=Order.PAID)
