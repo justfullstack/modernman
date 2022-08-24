@@ -40,7 +40,7 @@
                                     the management_form attribute in the template  
                                 -->
                                 <span>quantity : </span>
-                                <input type="number" name="" value="1" id="">{{ form.quantity }}
+                                {{ form.quantity }}
                             </form>
                             <div class="price">$249.99 <span>$399.99</span></div>
                         </div>
@@ -60,19 +60,27 @@
             <h3> subtotal : <span>$1499.94</span> </h3>
             <h3> discount : <span>-$99.94</span> </h3>
             <h3> subtotal : <span>$1400.00</span> </h3>
+
+            {% if user.is_authenticated %}
+                <a href="#" class="btn">Check Out</a>
+            {% else  %}
+                <a href="#" class="btn">
+                    Sign Up
+                </a>
+                <div class="row">
+                    <div class="col-3">
+                        <hr>
+                    </div>
+                    <div class="col">To complete Order </div>
+                    <div class="col-3">
+                        <hr>
+                    </div>
+                </div>
+                <a href="{% url 'login' %}"  class="btn">
+                    Log In
+                </a>
+            {% endif %}
         </div>
-
-        {% if user.is_authenticated %}
-            <a href="#" class="btn">Check Out</a>
-        {% else  %}
-            <a href="{% url 'signup' %}?next={% url 'select-address' %}" class="btn">
-                Sign Up
-            </a>
-
-            <a href="{% url 'login' %}?next={% url 'select-address' %}"  class="btn">
-                Log In
-            </a>
-        {% endif %}
 
         {% else %}
         <div class="text-center">

@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import ProductListView, ProductDetailView, addToCart, manageCart
+from .views import ProductListView, ProductDetailView, addToCart, completeCheckout, manageCart
 
 urlpatterns = [
 
@@ -20,7 +20,13 @@ urlpatterns = [
     path(
         'cart/',
         manageCart,
-        name="basket"
+        name="cart"
+    ),
+
+    path(
+        'checkout-done/',
+        completeCheckout,  # change
+        name="checkout-done"
     ),
 
     # path(

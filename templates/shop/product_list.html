@@ -24,14 +24,14 @@
                 <div class="box">
 
                     <div class="image">
-                        <a href="#">
+                        <a href="{% url 'product' product.slug %}">
                             <img src="{% static 'img/products/product-1.jpg' %}"  class="main-img" alt="">
                             <img src="{% static 'img/products/product-1-hover.jpg' %}" class="hover-img" alt="">
                         </a>
                         
                         <div class="icons">
-                            <a href="#" class="fas fa-shopping-cart"></a>
-                            <a href="#" class="fas fa-search-plus"></a>
+                            <a href="{% url 'add-to-cart'  %}?product_id={{ product.id }}" class="fas fa-shopping-cart"></a>
+                            <a href="{% url 'product' product.slug %}" class="fas fa-search-plus"></a>
                             <a href="#" class="fas fa-heart"></a>
                             <a href="#" class="fas fa-share"></a>
                         </div>

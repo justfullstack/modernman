@@ -17,23 +17,3 @@ CartLineFormSet = inlineformset_factory(
     extra=0,
     #widgets={"quantity": widgets.PlusMinusWidget()},
 )
-
-
-class AddressSelectionForm(forms.Form):
-    '''
-    form dynamically specifies the parameters in the declared fields. In this case we are restricting addresses to the ones that are connected to the current user.
-    '''
-
-    billing_address = forms.ModelChoiceField(queryset=None)
-    shipping_address = forms.ModelChoiceField(queryset=None)
-
-    def __init__(self, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        try:
-            queryset = Address.objects.filter(user=user)
-            self.fields['billing_address'].queryset = queryset
-            self.fields['shipping_address'].queryset = queryset
-
-        except Address.DoesNotExist:
-            redirect('create-address')

@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
+from .forms import AddressSelectionForm
 from accounts.models import Address
 # Create your views here.
 
@@ -11,7 +11,7 @@ from accounts.models import Address
 
 class AddressSelectionView(LoginRequiredMixin, FormView):
 
-    template_name = 'shop/select_address.html'
+    template_name = 'accounts/select_address.html'
     form_class = AddressSelectionForm
     success_url = reverse_lazy('checkout-done')
 
@@ -37,6 +37,7 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
 
 class AddressListView(LoginRequiredMixin, ListView):
     model = Address
+    template_name = 'accounts/address_list.html'
 
     def get_queryset(self):
         return self.model.objects.get(user=self.request.user)
@@ -44,14 +45,17 @@ class AddressListView(LoginRequiredMixin, ListView):
 
 class AddressCreateView(LoginRequiredMixin, CreateView):
     model = Address
+    template_name = 'accounts/address_form.html'
     fields = ['address', 'postal_code', ' town',
               'county', 'city', 'country', 'phone_no']
 
 
 class AddressUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'accounts/address_update.html'
     model = Address
     fields = '__all__'
 
 
 class AddressDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'accounts/confirm_delete.html'
     model = Address

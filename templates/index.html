@@ -1,1 +1,534 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+	ModernMan | Home
+{% endblock %}
+ 
+
+
+{% block style %}
+	.hero {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		height: 100vh;
+	}
+
+	.hero__text{
+		width: 60%;
+	}
+
+	. hero__img img{
+		object-fit: cover; 
+	}
+
+	. hero__img {
+		 
+		margin: auto;
+	}
+
+
+	.hero__title h1 {
+		
+		font-size: 4rem;
+		font-weight: 700;
+		
+	}
+
+
+	.hero__title h1 {
+		
+		font-size: 4rem;
+		font-weight: 700;
+		
+	}
+
+	.hero__more--info {
+		
+		font-size: 4rem;
+		font-weight: 700;
+		
+	}
+
+	/* flash sale styling starts*/
+		
+	.arrivals .box-container {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: (minmax(33rem, 1fr))[auto-fit];
+		grid-template-columns: repeat(auto-fit, minmax(33rem, 1fr));
+	gap: 2rem;
+	}
+
+	.arrivals .box-container .box {
+	border-radius: .5rem;
+	border: 0.2rem solid #333;
+	padding: 2rem;
+	-webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+		-ms-flex-align: center;
+			align-items: center;
+	gap: 1rem;
+	background: #fff;
+	}
+
+	.arrivals .box-container .box:hover .image .main-img {
+	display: none;
+	}
+
+	.arrivals .box-container .box:hover .image .hover-img {
+	display: inline-block;
+	}
+
+	.arrivals .box-container .box .image img {
+	height: 15rem;
+	-webkit-animation: fadeIn .2s linear;
+			animation: fadeIn .2s linear;
+	}
+
+	.arrivals .box-container .box .image .hover-img {
+	display: none;
+	}
+
+	.arrivals .box-container .box .content h3 {
+	font-size: 2rem;
+	color: #333;
+	}
+
+	.arrivals .box-container .box .content .price {
+	padding-top: .5erm;
+	font-size: 2rem;
+	color: #0984e3;
+	padding-bottom: .7rem;
+	}
+
+	.arrivals .box-container .box .content .price span {
+	font-size: 1.5rem;
+	color: #666;
+	text-decoration: line-through;
+	}
+
+	.arrivals .box-container .box .content .stars i {
+	font-size: 1.5rem;
+	color: gold;
+	}
+
+	/* flash sale styling  ends */
+
+
+{% endblock %}
+
+
+
+{% block content %}
+	<div class="hero">
+		<div class="col  border hero__text">
+			<h1 class="hero__title">
+				Shop in <span class="section__heading">style.</span>
+			</h1>
+
+			<p class="hero__more--info">
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Id quidem quia tempore! Obcaecati labore odio est cum reprehenderit nostrum ea consequatur ad ipsa et fugiat libero, quidem numquam rerum illum.
+			</p> 
+
+			<div class="hero__buttons ">
+				<button class="btn">
+					<a href="#">Explore</a>
+				</button>
+
+				<button class="btn">
+					<a href="#">Shop</a>
+				</button>
+			</div>
+
+		</div>
+
+		<div class="col  border hero__img">
+			<img src="{% static 'img/products/home-img-2.jpg' %}">
+		</div>
+	</div>
+
+
+	<div class="section__heading">
+		New Arrivals
+	</div>
+	
+<!-- arrivals section starts  -->
+
+<section class="arrivals">
+
+    <h1 class="heading"> new <span>arrivals</span> </h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-1.jpg" class="main-img" alt="">
+                <img src="images/arrival-1-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>HD television</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-2.jpg" class="main-img" alt="">
+                <img src="images/arrival-2-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>lenovo laptop</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-3.jpg" class="main-img" alt="">
+                <img src="images/arrival-3-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>new smartphone</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-4.jpg" class="main-img" alt="">
+                <img src="images/arrival-4-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>new printer</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-5.jpg" class="main-img" alt="">
+                <img src="images/arrival-5-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>new headphones</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="image">
+                <img src="images/arrival-6.jpg" class="main-img" alt="">
+                <img src="images/arrival-6-hover.jpg" class="hover-img" alt="">
+            </div>
+            <div class="content">
+                <h3>new speakers</h3>
+                <div class="price"> $249.99 <span>$399.99</span> </div>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+<!-- arrivals section ends -->
+
+
+
+
+<!-- deal of the day  banner section starts  -->
+
+<section class="product-banner">
+
+    <h1 class="heading"> <span>deal</span> of the day </h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <img src="images/product-banner-1.jpg" alt="">
+            <div class="content">
+                <span>special offer</span>
+                <h3>upto 50% off</h3>
+                <a href="#" class="btn">shop now</a>
+            </div>
+        </div>
+
+        <div class="box">
+            <img src="images/product-banner-2.jpg" alt="">
+            <div class="content">
+                <span>special offer</span>
+                <h3>upto 50% off</h3>
+                <a href="#" class="btn">shop now</a>
+            </div>
+        </div>
+
+    </div>
+    
+</section>
+
+<!--  deal of the day banner section ends -->
+
+
+
+
+    <div class="container justify-content-center align-items-baseline">
+        <div class="row">
+            <div class="col-5">
+                <hr>
+            </div>
+
+
+            <div class="col">
+            <h3 class="text-center border text-center">OR</h3>
+            </div>
+
+
+            <div class="col-5">
+                <hr>
+            </div>
+        </div>
+    </div>  
+
+
+
+	<section class="container category mb-5">
+
+		<div class="section__heading mb-3">
+			Shop by Category
+		</div>
+
+				
+
+		<div class="row box-container">
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img1.png' %}"  alt="">
+				<h3>televisions</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img2.png' %}" alt="">
+				<h3>smartphones</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img3.png' %}"  alt="">
+				<h3>headphones</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img4.png' %}"  alt="">
+				<h3>smartwatches</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img5.png' %}"  alt="">
+				<h3>games</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img6.png' %}"  alt="">
+				<h3>camera</h3>
+			</a>
+
+			<a href="#" class="box  shadow ">
+				<img src="{% static 'img/products/cat_img7.png' %}"  alt="">
+				<h3>speakers</h3>
+			</a>
+
+		</div>
+
+	</section> 
+
+
+
+
+		
+	<!-- faq section starts  -->
+
+	<section class="faq">
+
+		<h1 class="heading"> questions & <span>answers</span> </h1>
+
+		<div class="accordion-container">
+
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>how to make websites?</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<p class="accordioin-content">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus, laboriosam non eligendi reiciendis quis laborum exercitationem voluptatibus autem harum nihil nisi sed mollitia, quam blanditiis architecto cumque? Sit, voluptate maiores.
+				</p>
+			</div>
+
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>how to place order online?</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<p class="accordioin-content">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus, laboriosam non eligendi reiciendis quis laborum exercitationem voluptatibus autem harum nihil nisi sed mollitia, quam blanditiis architecto cumque? Sit, voluptate maiores.
+				</p>
+			</div>
+
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>how to pay online?</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<p class="accordioin-content">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus, laboriosam non eligendi reiciendis quis laborum exercitationem voluptatibus autem harum nihil nisi sed mollitia, quam blanditiis architecto cumque? Sit, voluptate maiores.
+				</p>
+			</div>
+
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>is online payment safe?</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<p class="accordioin-content">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus, laboriosam non eligendi reiciendis quis laborum exercitationem voluptatibus autem harum nihil nisi sed mollitia, quam blanditiis architecto cumque? Sit, voluptate maiores.
+				</p>
+			</div>
+
+			<div class="accordion">
+				<div class="accordion-heading">
+					<h3>how to contact service center?</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<p class="accordioin-content">
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus, laboriosam non eligendi reiciendis quis laborum exercitationem voluptatibus autem harum nihil nisi sed mollitia, quam blanditiis architecto cumque? Sit, voluptate maiores.
+				</p>
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- faq section ends -->
+
+
+
+		
+	<!-- review section starts  -->
+
+	<section class="review">
+
+		<h1 class="heading"> clients <span>review</span> </h1>
+
+		<div class="swiper review-slider">
+
+			<div class="swiper-wrapper">
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-1.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt explicabo laborum eos delectus, in pariatur iste! Ducimus laudantium nostrum odio.</p>
+				</div>
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-2.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, culpa non eaque illo laudantium amet. Eius beatae, consequuntur corrupti atque, quod suscipit rem maiores impedit alias labore numquam nihil nostrum.</p>
+				</div>
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-3.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, culpa. Ducimus quos fuga hic. Tempore!</p>
+				</div>
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-4.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit explicabo placeat laborum pariatur voluptatibus tenetur impedit assumenda ex reprehenderit soluta ea fugiat error in laboriosam cum dicta consequuntur, sapiente minima quis hic deserunt magnam dignissimos.</p>
+				</div>
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-5.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt explicabo laborum eos delectus, in pariatur iste! Ducimus laudantium nostrum odio.</p>
+				</div>
+
+				<div class="swiper-slide slide">
+					<img src="images/pic-6.png" alt="">
+					<h3>john deo</h3>
+					<span>designer</span>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus earum quas quo natus quis, accusamus maxime magni molestias eos. Ab nihil magnam, id inventore explicabo ducimus repudiandae unde distinctio iste!</p>
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- review section ends -->
+
+
+
+
+
+
+
+
+
+{% endblock %}
+				
+	 

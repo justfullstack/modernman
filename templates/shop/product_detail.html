@@ -1,0 +1,38 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+{% block content %}
+        
+    <div class="row product-details border bg-white">
+        <div class="col-md-5 border  product-details-img"  id="imagebox">
+            Loading...
+        </div> 
+
+        <div class="col product-details-desc p-2 ">
+            <div class="mb-2 product__name-price">
+                <span class="product-name">{{ object.name|title }}</span>
+                <span class="product-price">Ksh. {{ object.price }}</span>
+            </div>
+
+            <hr>  
+
+            <div class="mb-2">
+                {{ object.description }} 
+            </div>
+
+            <hr>
+
+            <div class="product-buttons mt-1 mb-1 align-items-center justify-content-center">
+                <a href="#"  class="btn-lg btn">
+                    Add to Cart
+                </a>  
+            </div>
+
+            <hr>
+            
+        </div>
+
+
+    </div>
+{% endblock  %}

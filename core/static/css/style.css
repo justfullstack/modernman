@@ -14,7 +14,7 @@
 
 html {
     overflow-x: hidden;
-    font-size: 62.5%;
+    font-size: 72.5%;
 }
 
 html::-webkit-scrollbar {
@@ -375,4 +375,333 @@ nav .nav-item a .badge .bg-danger {
 
 
 
-/*==================    PRODUCT CATEGORY ENDS ====================*/
+/*==================   FAQ STARTS ====================*/
+.faq .accordion-container {
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+.faq .accordion-container .accordion {
+    background: #fff;
+    margin-bottom: 1.5rem;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.faq .accordion-container .accordion:last-child {
+    margin-bottom: .5rem;
+}
+
+.faq .accordion-container .accordion.active .accordion-heading {
+    background: #0984e3;
+}
+
+.faq .accordion-container .accordion.active .accordion-heading i {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.faq .accordion-container .accordion.active .accordioin-content {
+    display: block;
+}
+
+.faq .accordion-container .accordion .accordion-heading {
+    padding: 2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 1rem;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background: #333;
+    cursor: pointer;
+}
+
+.faq .accordion-container .accordion .accordion-heading h3 {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.faq .accordion-container .accordion .accordion-heading i {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.faq .accordion-container .accordioin-content {
+    padding: 2rem;
+    font-size: 1.5rem;
+    line-height: 2;
+    color: #666;
+    display: none;
+    -webkit-animation: fadeIn .2s linear;
+    animation: fadeIn .2s linear;
+}
+
+
+
+/*==================   FAQ STYLING ENDS ====================*/
+
+
+/*==================   REVIEW STYLING STARTS ====================*/
+.review .slide {
+    width: 35rem;
+    padding: 3rem;
+    text-align: center;
+    border: 0.2rem solid #333;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    border-radius: .5rem;
+    background: #fff;
+}
+
+.review .slide img {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    margin-bottom: .5rem;
+}
+
+.review .slide h3 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.review .slide span {
+    color: #0984e3;
+    font-size: 1.7rem;
+}
+
+.review .slide p {
+    font-size: 1.5rem;
+    line-height: 2;
+    color: #666;
+    padding-top: 1rem;
+}
+
+
+/*==================   REVIEW   STYLING ENDS ====================*/
+
+
+
+
+/*==================   FOOTER STYLING STARTS ====================*/
+
+.quick-links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 2rem;
+    background: #333;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.quick-links .logo {
+    font-size: 2.5rem;
+    color: #fff;
+    font-weight: bolder;
+}
+
+.quick-links .logo i {
+    color: gold;
+}
+
+.quick-links .links a {
+    margin: 0 1rem;
+    font-size: 1.7rem;
+    color: #fff;
+}
+
+.quick-links .links a:hover {
+    color: gold;
+}
+
+.quick-links .share a {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-left: 2rem;
+}
+
+.quick-links .share a:hover {
+    color: gold;
+}
+
+.credit {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 2rem;
+    background: #fff;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.credit p {
+    font-size: 2rem;
+    color: #666;
+}
+
+.credit p span {
+    color: #0984e3;
+}
+
+.credit img {
+    height: 4rem;
+    -webkit-filter: drop-shadow(0 0 0.1rem #333);
+    filter: drop-shadow(0 0 0.1rem #333);
+}
+
+@media (max-width: 1200px) {
+    html {
+        font-size: 55%;
+    }
+
+    .header {
+        padding: 2rem;
+    }
+
+    section {
+        padding: 3rem 2rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .quick-links {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+        flex-flow: column;
+        text-align: center;
+    }
+
+    .quick-links .links {
+        padding: 1rem 0;
+    }
+
+    .quick-links .links a {
+        display: block;
+        font-size: 2rem;
+        padding: 1rem 0;
+    }
+
+    .quick-links .share a {
+        margin: 0 1rem;
+    }
+
+    .credit {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+        flex-flow: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    #search-btn {
+        display: inline-block;
+    }
+
+    .header .search-form {
+        position: absolute;
+        top: 99%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        border-radius: 0;
+        -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        height: 6rem;
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    .header .search-form.active {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none;
+    }
+
+    .home .slide {
+        text-align: center;
+    }
+
+    .newsletter {
+        text-align: center;
+    }
+
+    .newsletter .content h3 {
+        font-size: 4rem;
+    }
+
+    .newsletter .content p {
+        font-size: 1.5rem;
+    }
+}
+
+
+
+/*==================  FOOTER STYLING ENDS ====================*/
+
+
+
+/*==================  ADDRESS LIST STYLING STARTS ====================*/
+.info-container .box-container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(31rem, 1fr));
+    gap: 2rem;
+}
+
+.info-container .box-container .box {
+    background: #fff;
+    border-radius: .5rem;
+    text-align: center;
+    padding: 2rem;
+    border: 0.2rem solid #333;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.info-container .box-container .box i {
+    height: 7.5rem;
+    width: 7.5rem;
+    line-height: 7.5rem;
+    font-size: 2.5rem;
+    border-radius: 50%;
+    margin-bottom: .5rem;
+    background: #0984e3;
+    color: #fff;
+}
+
+.info-container .box-container .box h3 {
+    font-size: 2rem;
+    padding: .5rem 0;
+    color: #333;
+}
+
+.info-container .box-container .box p {
+    font-size: 1.5rem;
+    line-height: 2;
+    color: #666;
+}
+
+
+/*==================  ADDRESS LIST STYLING ENDS ====================*/

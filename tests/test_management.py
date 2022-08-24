@@ -1,5 +1,5 @@
 from io import StringIO
-import tempfile 
+import tempfile
 from django.core.management import call_command
 from django.test import TestCase, override_settings
 from shop import models
@@ -11,8 +11,8 @@ class TestImport(TestCase):
         # test for the csv file to exist,
         # test images to be present in the basedir
         out = StringIO()
-        args = ['core/fixtures/product-sample.csv',
-                'core/fixtures/product-sampleimages/']
+        args = ['core/fixtures/test/product-sample.csv',
+                'core/fixtures/test/product-sampleimages/']
         # Django offers the function call_command() to invoke management commands from Python itself
         call_command('import_data', *args, stdout=out)
 

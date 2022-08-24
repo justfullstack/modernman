@@ -139,4 +139,4 @@ class Address(models.Model):
     phone_no = models.IntegerField(default=000)
 
     def __str__(self):
-        return f"{self.name}, {self.address} - {self.postal_code}, {self.town},  {self.county}, {self.city},  {self.country}, {self.phone_no}"
+        return f"{self.title}., {self.name}, {self.address} - {self.postal_code}, {self.town},  {self.county}, {self.city},  {self.country}, {self.phone_no}"
