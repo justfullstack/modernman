@@ -96,7 +96,7 @@ class TestShopView(TestCase):
         #    response, "  shop/product_detail.html", count=1)
         self.assertContains(response, product.name)
 
-    def testAddToCartWorks(self):
+    def testAddToCartLoggedInWorks(self):
         user = CustomUser.objects.create_user(
             first_name='First',
             last_name='Last',
@@ -117,5 +117,21 @@ class TestShopView(TestCase):
         )
 
         self.assertTrue(
+            response.status == 200
+        )
+
+        self.assertTrue(
             Cart.objects.filter(user=user).exists()
         )
+
+        self.assertEquals(CartLine.objects.filter(cart__user=user).count(),  1)
+
+        response = self.client.get(
+            reverse("add-to-cart"), {"product_id": product.id}
+        )
+
+        self.assertTrue(
+            response.status == 200
+        )
+
+        self.assertEquals(CartLine.objects.filter(cart__user=user).count(), 2)
