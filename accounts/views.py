@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import path, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from shop.models import Order
 from .forms import AddressSelectionForm
 from accounts.models import Address
+import tempfile
 # Create your views here.
 
 #########################  SHIPPING: ADDRESSES ###########################
@@ -59,3 +64,57 @@ class AddressUpdateView(LoginRequiredMixin, UpdateView):
 class AddressDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'accounts/confirm_delete.html'
     model = Address
+
+
+############################# generate invoice #########################
+class InvoiceMixin:
+    """
+    This mixin will be used for the invoice functionality, which is only available to owners and employees, but not dispatchers
+    """
+
+    def get_urls(self):
+        urls = super().get_urls()
+
+        my_urls = [
+            path(
+                "invoice/<int:order_id>/",
+                self.admin_view(self.generateInvoiceForOrder),
+                name="invoice",
+            )
+        ]
+        return my_urls + urls
+
+    def generateInvoiceForOrder(self, request, order_id):
+        """
+        This  view has two rendering modes, HTML and PDF. 
+        Both modes use the same invoice.html template, but in the case of PDF,
+        WeasyPrint is used to post-process the output of the templating engine.
+        """
+
+        order = get_object_or_404(Order, pk=order_id)
+
+        if request.GET.get("format") == "pdf":
+
+            html_string = render_to_string("invoice.html",  {"order": order})
+
+            html = HTML(string=html_string,
+                        base_url=request.build_absolute_uri(), )
+
+            result = html.write_pdf()
+
+            response = HttpResponse(content_type="application/pdf")
+            response["Content-Disposition"] = f"inline; filename=invoice_{order_id}.pdf"
+            response["Content-Transfer-Encoding"] = "binary"
+
+            with tempfile.NamedTemporaryFile(delete=True) as outfile:
+                outfile.write(result)
+
+
+                with open(outfile.name, "rb") as out_file:
+                    binary_pdf = out_file.read()
+                    response.write(binary_pdf)
+
+                outfile.flush()
+
+            return response
+        return render(request, "shop/invoice.html", {"order": order})
