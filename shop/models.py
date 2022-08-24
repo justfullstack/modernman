@@ -252,3 +252,9 @@ class OrderLine(models.Model):
     # impeding deletion of any products that are in an order
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     status = models.IntegerField(choices=STATUSES, default=NEW)
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="product_images")
+    thumbnail = models.ImageField(upload_to="product_thumbnails", null=True)
