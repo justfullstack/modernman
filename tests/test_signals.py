@@ -1,61 +1,94 @@
 
 from decimal import Decimal
+from django.test import TestCase
 from django.urls import reverse
 from django.contrib import auth
 from customauth.models import CustomUser
-from shop.models import Cart, CartLine, Product
+from shop.models import Cart, CartLine, Product, ProductImage
+from django.core.files.images import ImageFile
 
 
-def testCartMergeSignalWorks(self):
+
+class Tesignal(TestCase):
+    def testCartMergeSignalWorks(self):
         user = CustomUser.objects.create_user(
-                                first_name="First", 
-                                last_name="Last" ,
-                                email="email@domain.com", 
-                                password="Password!"
-                                )
-        
-        product1 = Product.objects.create(
-                                name="Sample Product One",
-                                description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
-                                price=Decimal('78.50')
-                                )
+            first_name="First",
+            last_name="Last",
+            email="email@domain.com",
+            password="Password!"
+        )
 
-        product2 =  Product.objects.create(
-                                name="Sample Product Two",
-                                description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
-                                price=Decimal('100.00')
-                                )
+        product1 = Product.objects.create(
+            name="Sample Product One",
+            description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
+            price=Decimal('78.50')
+        )
+
+        product2 = Product.objects.create(
+            name="Sample Product Two",
+            description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
+            price=Decimal('100.00')
+        )
 
         # add anonymous  cart
         response = self.client.get(
-                            reverse('addToCart'),
-                            {'product_id': product1.id}   
-                            )
-                                
+            reverse('addToCart'),
+            {'product_id': product1.id}
+        )
+
         # add to  cart logged_in
         cart1 = Cart.objects.create(user=user)
 
-
         # add to cartline
         CartLine.objects.create(
-                            cart=cart1,
-                            product=product2,
-                            quantity=2
-                            )
+            cart=cart1,
+            product=product2,
+            quantity=2
+        )
 
         # log in: should trigger merge signal
         response = self.client.post(
-                            reverse('login'),
-                            {'email': "email@domain.com", "password": "Password!"}   
-                            )
-
-
+            reverse('login'),
+            {'email': "email@domain.com", "password": "Password!"}
+        )
 
         self.assertTrue(
             auth.get_user(self.client).is_authenticated
-            )
+        )
 
         self.assertTrue(Cart.objects.filter(user=user).exists())
 
-        cart =  Cart.objects.get(user=user)  
+        cart = Cart.objects.get(user=user)
         self.assertEqual(cart.count(), 3)
+
+    def testThumbnailsGenerationSignal(self):
+        # create product
+        product = Product(
+            name="Armani 2 Piece Suit",
+            price=Decimal("1300.00"),
+            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Id voluptates possimus iusto dolor nisi. Neque consequuntur nemo ratione distinctio corporis illum molestias. Magnam nostrum, totam minima ullam similique debitis obcaecati."
+        )
+        product.save()
+
+        # add product image
+        with open("modernman/core/fixtures/img/product1.png", "rb") as file:
+
+            image = ProductImage(
+                product=product,
+                image=ImageFile(file, name="product1.png")
+            )
+
+        # ensure logs generated on success save
+        with self.assertLogs("shop", level="INFO") as cm:
+            image.save()
+            self.assertGreaterEqual(len(cm.output), 1)
+            image.refresh_from_db()
+
+        with open("modernman/fixtures/img/product1.png", "rb") as file:
+            expected_content = file.read()
+            self.assertEquals(image.thumbnail.read(), expected_content)
+
+            # db flushed automatically but not files
+            # so flush images manually
+            image.thumbnail.delete(save=False)
+            image.image.delete(save=False)

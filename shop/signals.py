@@ -1,9 +1,11 @@
+from io import BytesIO
 import logging
 from django.db.models.signals import pre_save, post_save
 from .models import Order, OrderLine, ProductImage, Cart
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
-
+from PIL import Image
+from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
 
@@ -57,3 +59,42 @@ def mergeCartsOnLogin(sender, user, request, **kwargs):
             anonymous_cart.user = user
             anonymous_cart.save()
             logger.info(f"Assigned user to cart id {anonymous_cart.id}")
+
+
+
+
+
+# thumbnail generation signal
+
+THUMBNAIL_SIZE = (300, 300)
+
+
+@receiver(pre_save, sender=ProductImage)
+def generateThumbnails(sender, instance, **kwargs):
+    ''' automatically generates a 300 x 300 thumbnail for every image uploaded'''
+
+    logger.info(f"Generating thumbnail for product {instance.product.id}")
+
+    image = Image.open(instance.image)
+    image = image.convert("RGB")
+    image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+
+    temp_thumb = BytesIO()
+    image.save(temp_thumb, "JPEG")
+    temp_thumb.seek(0)
+
+    # set save=False, otherwise it will run in an infinite loop
+    instance.thumbnail.save(
+        instance.image.name,
+        ContentFile(temp_thumb.read()),
+        save=False,
+    )
+
+    temp_thumb.close()
+
+    logger.info(f"Generated thumbnail for product {instance.product.id}...")
+
+
+
+
+
