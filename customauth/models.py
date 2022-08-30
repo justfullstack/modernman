@@ -192,3 +192,5 @@ class CustomUser(AbstractBaseUser):
             or self.is_staff
             and self.groups.filter(name="Dispatchers").exists()
         )
+
+

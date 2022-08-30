@@ -38,47 +38,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'shop/product_detail.html'
 
-
-# # add to cart
-# def addToCart(request, slug): 
-#     if request.user.is_authenticated:
-#         user = request.user
-#     else:
-#         user = None
-
-
-#     item = get_object_or_404(Product, slug=slug)
-
-#     order_item = OrderItem.objects.create(user=user,item=item,status=OrderItem.OPEN)
-#     order_qs = Order.objects.filter(user=user, status=Order.NEW)
-
-#     if order_qs.exists():
-#         order = order_qs[0]
-
-#         # check if item already in order
-#         # if yes, increment by 1
-
-#         if order.items.filter(item__slug=item.slug).exists():
-
-#             order_item.quantity += 1
-#             messages.info(request, f"{product_item.name} already in the cart! ")
-#             messages.success(request, f"{order_item.quantity} {item.name} now in the cart! ")
-#             order_item.save()
-
-#         else:
-#             order.items.add(order_item)
-#             messages.success(request, f"Successfully added to the cart!")
-#     else: 
-#         order = Order.objects.create(user=user )
-#         order.items.add(order_item)
-
-    
-#         messages.success(request, f"Successfully added to the cart!")
-
-#     return redirect('product', slug=slug)
-
-
-
+ 
 # add to cart
 def addToCart(request, slug):
     '''
@@ -154,7 +114,7 @@ def removeFromCart(request, slug):
 
     # if cartline was already initiated
     if not cartline.exists():
-        messages.error(request, f"'{product.name}' already in the cart!") 
+        messages.error(request, f"'{product.name}' not found in the cart!") 
     else:
         cartline.delete()
         #cartline.save()

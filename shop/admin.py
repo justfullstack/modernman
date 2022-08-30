@@ -2,19 +2,18 @@ import logging
 from django.contrib import admin
 from django.utils.html import format_html
 
-from shop.models import CartLine, Order, OrderLine
+from shop.models import CartLine, Order, OrderLine, Cart, Product, ProductImage
 
 logger = logging.getLogger(__name__)
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'count',
-                    'on_sale', 'slug',  'price')
+    list_display = ('name', 'description', 'stock_count',
+                      'slug',  'price')
     list_filter = ('active',    'on_sale',  'date_uploaded')
-    list_editable = ('count',  'price', 'description')
+    list_editable = ('stock_count',  'price', 'description')
     search_fields = ('name',)
-    prepopulated_fields = {"slug": ("name")}
-    autocomplete_fields = ('tags',)
+    prepopulated_fields = {"slug": ("name",) } 
 
     # slug is an important field for our site, it is used in
     # all the product URLs. We want to limit the ability to
@@ -48,34 +47,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class DispatchersProductAdmin(ProductAdmin):
-    readonly_field = ("description", "price", "tags", "active")
+    readonly_field = ("description", "price", "category", "active")
     list_filter = ("active", )
     search_fields = ("name", )
     prepopulated_fields = {"slug": ("name", )}
 
-
-class ProductTagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
-    list_filter = ("active")
-    search_fields = ('name',)
-    prepopulated_fields = {"slug": ("name",)}
-    autocomplete_fields = ()
-
-    # tag slugs also appear in urls, therefore it is a
-    # property only owners can change
-
-    def get_readonly_fields(self, request):
-        if not request.user.is_superuser:
-            return self.readonly_fields
-        return list(self.readonly_fields) + ["slug", "name"]
-
-    def get_prepopulated_fields(self, request, obj):
-        if request.user.is_superuser:
-            return self.prepopulated_fields
-        else:
-            return {}
-
-
+ 
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ('thumbnail_tag', 'product_name')
     readonly_fields = ('thumbnail',)
@@ -111,7 +88,7 @@ class CartLineInline(admin.TabularInline):
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'count', )
+    list_display = ('id', 'user', 'status',   )
     list_editable = ('status', )
     list_filter = ('status', )
     inlines = (CartLineInline, )
@@ -260,3 +237,11 @@ class DispatchersOrderAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(status=Order.PAID)
+
+
+
+
+
+admin.site.register(Product, ProductAdmin )
+admin.site.register(ProductImage, ProductImageAdmin )
+admin.site.register(Cart, CartAdmin ) 

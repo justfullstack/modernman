@@ -61,7 +61,7 @@ class SignupView(View):
 
                 # generate activation data
                 token = token_generator.make_token(user)
-                uidb64 = urlsafe_b64encode(force_bytes(user.pk))
+                uidb64 = force_str(urlsafe_b64encode(force_bytes(user.pk)))
 
                 domain = get_current_site(request).domain
 
@@ -91,6 +91,8 @@ class SignupView(View):
 
                 messages.info(
                     request, "Please check your inbox to activate your account.")
+
+                user.save()
 
                 logger.info(f"Account created successfully for {email}...!")
 
@@ -154,7 +156,7 @@ class AuthenticationView(View):
 
                 messages.success(
                     request, f"Welcome {user.first_name}, You're now logged in.")
-                return redirect('products')
+                return redirect('products', tag="all")
             else:
                 messages.error(request, "Wrong password!")
 

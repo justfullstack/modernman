@@ -20,7 +20,6 @@ def cart_items_count(user):
 	if cart_qs.exists():
 		cart = cart_qs[0]
 		cartline_qs = CartLine.objects.filter(cart=cart)
-		return cartline_qs.count()
-		#return cart.cartline_set.all().count()
+		return cartline_qs.count() 
 	else:
 		return 0
