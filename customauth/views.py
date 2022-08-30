@@ -154,7 +154,7 @@ class AuthenticationView(View):
 
                 messages.success(
                     request, f"Welcome {user.first_name}, You're now logged in.")
-                return redirect('profile')
+                return redirect('products')
             else:
                 messages.error(request, "Wrong password!")
 

@@ -11,7 +11,7 @@
 
 {% block content %} 
 
-    <h1 class="heading section__heading mb-5 text-center">My  shoppping <span>Cart</span></h1>
+    <h1 class="heading section__heading mb-5 ">My  shoppping <span>Cart</span></h1>
 
     <!-- shopping cart section starts  -->
 
@@ -26,10 +26,15 @@
                     (excluded by the form), by accessing the model 
                     directly through instance  -->
 
-                    <div class="box">
-                        <i class="fas fa-times"></i>
-                        <img src="{% static 'img/products/product-1.jpg' %}" alt="">
-                        {{ form.instance.product.thumbnail }}
+                    <div class="box ">
+                        <a href="{{  form.instance.product.get_remove_from_cart_url }}">
+                            <i class="fas fa-times"></i>
+                        </a> 
+                        <a href="{{ form.instance.product.get_absolute_url }}">   
+                            <img src="{% static 'img/products/product-1.jpg' %}" alt="">
+                            {{ form.instance.product.thumbnail }}
+                        </a>
+                        
 
                         <div class="content">
                             <h3>{{ form.instance.product.name }}</h3>
@@ -40,9 +45,12 @@
                                     the management_form attribute in the template  
                                 -->
                                 <span>quantity : </span>
-                                {{ form.quantity }}
+                                <span class="text-center">{{ form.quantity }}</span>
                             </form>
-                            <div class="price">$249.99 <span>$399.99</span></div>
+                            <div class="price">
+                                Ksh {{ form.instance.product.discount_price }}
+                                <span>Ksh {{ form.instance.product.price }}</span>
+                            </div>
                         </div>
 
                     </div>
@@ -51,34 +59,41 @@
         </div>
 
 
-        <button type="submit" class="btn-lg btn ">
+        <button type="submit" class="btn-lg btn  mt-3">
             Update Cart
         </button>
 
 
         <div class="cart-total">
-            <h3> subtotal : <span>$1499.94</span> </h3>
+            <h3> subtotal : <span class="text-gray">$1499.94</span> </h3>
             <h3> discount : <span>-$99.94</span> </h3>
             <h3> subtotal : <span>$1400.00</span> </h3>
 
-            {% if user.is_authenticated %}
-                <a href="#" class="btn">Check Out</a>
-            {% else  %}
-                <a href="#" class="btn">
-                    Sign Up
-                </a>
-                <div class="row">
-                    <div class="col-3">
-                        <hr>
-                    </div>
-                    <div class="col">To complete Order </div>
-                    <div class="col-3">
-                        <hr>
-                    </div>
+            <div class="row">
+                <div class="col-5">
+                    <hr>
                 </div>
-                <a href="{% url 'login' %}"  class="btn">
-                    Log In
-                </a>
+                <div class="col text-center">To complete Order </div>
+                <div class="col-5">
+                    <hr>
+                </div>
+            </div>
+
+            {% if erquest.user.is_authenticated %}
+                <div>
+                    <a href="#" class="btn">Check Out</a>
+                </div>   
+            {% else  %}
+
+                <div class="row">
+                    <a href="#" class="btn col">
+                        Sign Up
+                    </a>
+                    
+                    <a href="{% url 'login' %}"  class="btn col">
+                        Log In
+                    </a>
+                </div>    
             {% endif %}
         </div>
 

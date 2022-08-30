@@ -5,34 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    pass
 
-    initial = True
-
-    dependencies = [
-    ]
-
-    operations = [
-        migrations.CreateModel(
-            name='CustomUser',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.TextField(max_length=30, verbose_name='first_name')),
-                ('last_name', models.TextField(max_length=30, verbose_name='last_name')),
-                ('email', models.EmailField(max_length=200, unique=True, verbose_name='email address')),
-                ('password', models.TextField(blank=True, max_length=150, null=True, verbose_name='password')),
-                ('balance', models.DecimalField(blank=True, decimal_places=2, default=0.0, max_digits=10, null=True)),
-                ('date_joined', models.DateTimeField(auto_now=True, null=True, verbose_name='date_joined')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last_login')),
-                ('is_subscribed', models.BooleanField(blank=True, default=False, verbose_name='is_subscribed')),
-                ('is_active', models.BooleanField(blank=True, default=True, null=True)),
-                ('is_superuser', models.BooleanField(blank=True, default=False, null=True)),
-                ('is_admin', models.BooleanField(blank=True, default=False, null=True)),
-            ],
-            options={
-                'abstract': False,
-            },
-            managers=[
-                ('objects', customauth.models.CustomUserManager()),
-            ],
-        ),
-    ]
+    

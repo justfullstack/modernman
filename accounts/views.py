@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import path, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.template.loader import render_to_string
-from weasyprint import HTML
+#from weasyprint import HTML
 from shop.models import Order
 from .forms import AddressSelectionForm
 from accounts.models import Address

@@ -145,7 +145,8 @@ class OrderAdmin(admin.ModelAdmin):
                 'billing_postal_code',
                 'billing_county',
                 'billing_city',
-                'billing_country'
+                'billing_country',
+                'billing_phone_no'
             )
 
         },
@@ -159,7 +160,8 @@ class OrderAdmin(admin.ModelAdmin):
                 'shipping_postal_code',
                 'shipping_county',
                 'shipping_city',
-                'shipping_country'
+                'shipping_country',
+                'shipping_phone_no'
             )
 
         },

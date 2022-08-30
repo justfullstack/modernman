@@ -1,2 +1,891 @@
-{% extends 'shop/base.html' %}
+
+
+
+
+
 {% load static %}
+{% load cart_template_tags %}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>
+        {% block title %}
+            Blank Page - ModernMan
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"> 
+
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static '/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static '/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/fonts/fontawesome5-overrides.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block stylesheet %}
+             
+    {% endblock %}
+    <style>
+        * {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: capitalize;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+} 
+
+body{
+    font-size: 1.5em;
+}
+
+
+/*==================    GENERAL STYLING STARTS ====================*/
+ .alert-success{color:#117853;background-color:#d2f4e8;border-color:#bbefdc}
+
+ .alert-success {color:#0e6042} 
+
+
+
+ .alert-info{color:#206f7a;background-color:#d7f1f5;border-color:#c3eaf0}
+ .alert-info .alert-link{color:#1a5962}
+
+ .alert-warning{color:#947425;background-color:#fdf3d8;border-color:#fcedc5}
+
+ .alert-warning  {color:#765d1e}
+
+
+ .alert-danger{color:#8b2c23;background-color:#fadbd8;border-color:#f8c9c4}
+ .alert-danger .alert-link{color:#6f231c}
+
+ 
+ .alert-error{color:#8b2c23;background-color:#fadbd8;border-color:#f8c9c4}
+ .alert-error .alert-link{color:#6f231c}
+
+
+.btn {
+    background: #000;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: rgb(255, 140, 0);
+}
+
+.btn:active {
+    scale: 0.98;
+}
+
+
+.section__heading {
+    font-weight: 800;
+    margin: 0.7em 0;
+    color: rgb(255, 94, 0);
+    font-size: 1.5em;
+
+}
+
+
+         img{
+            object-fit: cover;
+            max-width: 100%;
+        }
+                .products .box-container {
+            display: -ms-grid;
+            display: grid;
+            -ms-grid-columns: (minmax(15rem, 1fr))[auto-fit];
+            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+            gap: 1rem;
+        }
+
+        .products .box-container .box {
+            border: 1px solid #333;
+            text-align: center;
+            background: #fff;
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            border-radius: .5rem;
+            overflow: hidden;
+            width: 100%;
+        }
+
+
+
+        .products .box-container .box:hover {
+            cursor: pointer;
+            border: 1px solid rgb(255, 95, 0);
+        }
+
+        .products .box-container .box:active {
+            transform: scale(0.9);
+        }
+
+        
+
+        .products .box-container .box:hover .image .hover-img {
+            display: inline-block;
+        }
+
+        .products .box-container .box:hover .image .main-img {
+            display: none;
+        }
+
+        .products .box-container .box:hover .image .icons {
+            left: 1rem;
+        }
+
+        .products .box-container .box .image {
+            position: relative;
+        }
+
+        .products .box-container .box .image img {
+            height: 15rem;
+            -webkit-animation: fadeIn .2s linear;
+            animation: fadeIn .2s linear;
+        }
+
+        .products .box-container .box .image .hover-img {
+            display: none;
+        }
+
+        .products .box-container .box .image .icons {
+            position: absolute;
+            top: 0;
+            left: -7rem;
+        }
+
+        .products .box-container .box .image .icons a {
+            display: block;
+            margin-top: 1rem;
+            height: 4.5rem;
+            width: 4.5rem;
+            line-height: 4.5rem;
+            font-size: 1.3rem;
+            border-radius: 50%;
+            color: #fff;
+            background: #000;
+        }
+
+        .products .box-container .box .image .icons a:hover {
+            background: rgb(255, 94, 0);
+        }
+
+        .products .box-container .box .content {
+            padding: 1rem;
+        }
+
+        .products .box-container .box .content h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .products .box-container .box .content .price {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgb(255, 94, 0);
+            padding-bottom: .7rem;
+            padding-top: .5rem;
+        }
+
+        .products .box-container .box .content .price span {
+            color: #666;
+            font-size: 0.8rem;
+            text-decoration: line-through;
+        }
+
+        .products .box-container .box .content .stars i {
+            font-size: 1.1rem;
+            color: rgb(255, 94, 0);
+        }   
+
+        /*========= CATEGORY STYLING START ==================*/
+        .product-detail {
+            border: 1px solid #333;
+            text-align: center;
+            background: #fff;
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); 
+            border-radius: .5rem;
+            overflow: hidden;
+            width: 100%;
+        }
+
+
+        .product__name-price{
+            padding: 1.1em auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+        .product__name-price .product-name { 
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+
+        .product__name-price .product-price { 
+            font-size: 1.0rem;
+            font-weight: 200;
+            color: rgb(255, 94, 0);
+        }
+
+        .product-detail  .description{
+            font-size: 70%;
+        }
+
+        /*========= CATEGORY STYLING START ==================*/
+                
+        .category .box-container {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (minmax(15rem, 1fr))[auto-fit];
+            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 1rem;
+        }
+
+        .category .box-container .box {
+        text-align: center;
+        border-radius: .5rem;
+        border: 1px solid #333;
+        padding: 2rem;
+        background: #fff;
+        -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+
+        .category .box-container .box:hover {
+        background: rgb(255, 94, 0);
+        border: 1px solid #000;
+        }
+
+        .category .box-container .box:hover h3 {
+        color: #fff;
+        }
+
+        .category .box-container .box img {
+           margin-bottom: .5rem;
+     height: 8rem;
+        }
+
+        .category .box-container .box h3 {
+        font-size: 1.7rem;
+        color: #333;
+        }
+
+        .category   a {
+        
+        text-transform: capitalize;
+        text-decoration: none;
+        }
+
+
+                
+        /*==================    CART STYLING STARTS ====================*/
+
+        .shopping-cart .box-container {
+            display: -ms-grid;
+            display: grid;
+            -ms-grid-columns: (minmax(31rem, 1fr))[auto-fit];
+            grid-template-columns: repeat(auto-fit, minmax(31rem, 1fr));
+            gap: 2rem;
+        }
+
+        .shopping-cart .box-container .box {
+            padding: 2rem;
+            border: 0.2rem solid #333;
+            background: #fff;
+            border-radius: .5rem;
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            gap: .5rem;
+            position: relative;
+        }
+
+        .shopping-cart .box-container .box .fa-times {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .shopping-cart .box-container .box .fa-times:hover {
+            color: #333;
+        }
+
+        .shopping-cart .box-container .box img {
+            height: 12rem;
+        }
+
+        .shopping-cart .box-container .box .content h3 {
+            font-size: 1.7rem;
+            color: #333;
+        }
+
+        .shopping-cart .box-container .box .content form {
+            padding: 1rem 0;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            gap: .5rem;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            text-align: center;
+        }
+
+
+        .shopping-cart .box-container .box .content form input{
+             
+            text-align: center;
+        }
+
+        .shopping-cart .box-container .box .content form span {
+            font-size: 1.5rem;
+            color: #666;
+        }
+
+        .shopping-cart .box-container .box .content form input {
+            width: 7rem;
+            padding: .5rem 1rem;
+            color: #666;
+            border-radius: .5rem;
+            background: #eee;
+            font-size: 1.5rem;
+        }
+
+        .shopping-cart .box-container .box .content .price {
+            font-size: 2rem;
+            color: rgb(255, 94, 0);
+        }
+
+        .shopping-cart .box-container .box .content .price span {
+            font-size: 1.5rem;
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        .shopping-cart .cart-total {
+            margin-top: 2rem;
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            border: 0.2rem solid #333;
+            border-radius: .5rem;
+            background: #fff;
+            padding: 2rem;
+            padding-top: 1rem;
+        }
+
+        .shopping-cart .cart-total h3 {
+            padding-top: 1rem;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .shopping-cart .cart-total h3 span {
+            color: rgb(255, 94, 0);
+        }
+
+
+        .shopping-cart .box-container .box   .fas:hover {
+             color: rgb(255, 94, 0);
+        }
+
+
+        .shopping-cart .box-container .box   .fas:active {
+            transform: scale(0.9);
+        }
+
+
+
+
+
+        /*==================    CART STYLING ENDS ====================*/
+
+
+
+                
+        /*==================   FAQ STARTS ====================*/
+        .faq .accordion-container {
+            max-width: 70rem;
+            margin: 0 auto;
+        }
+
+        .faq .accordion-container .accordion {
+            background: #fff;
+            margin-bottom: 1.5rem;
+            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+        }
+
+        .faq .accordion-container .accordion:last-child {
+            margin-bottom: .5rem;
+        }
+
+        .faq .accordion-container .accordion.active .accordion-heading {
+            background: #0984e3;
+        }
+
+        .faq .accordion-container .accordion.active .accordion-heading i {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .faq .accordion-container .accordion.active .accordioin-content {
+            display: block;
+        }
+
+        .faq .accordion-container .accordion .accordion-heading {
+            padding: 2rem;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            gap: 1rem;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            background: #333;
+            cursor: pointer;
+        }
+
+        .faq .accordion-container .accordion .accordion-heading h3 {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .faq .accordion-container .accordion .accordion-heading i {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .faq .accordion-container .accordioin-content {
+            padding: 2rem;
+            font-size: 1.5rem;
+            line-height: 2;
+            color: #666;
+            display: none;
+            -webkit-animation: fadeIn .2s linear;
+            animation: fadeIn .2s linear;
+        }
+
+
+
+        /*==================   FAQ STYLING ENDS ====================*/
+
+
+
+
+    </style>
+</head>
+
+<body id="page-top">
+    <div id="wrapper"> 
+        
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-black p-0">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">
+                        <span>ModernMan</span>
+                    </div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="table.html">
+                            <i class="fas fa-table"></i>
+                            <span>Table</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="far fa-user-circle"></i>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid">
+                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
+                            <i class="fas fa-bars"></i>
+                        </button>
+
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                <button class="btn btn-primary py-0 btn-black" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow">
+                                <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                    <i class="fas fa-search"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
+
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group">
+                                            <input class="bg-light form-control border  small" type="text" placeholder="Search for ...">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary py-0 bg-black" type="button">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </li>
+
+
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="badge bg-danger badge-counter">0</span>
+                                        <i class="fas fa-bell fa-fw"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">
+                                            alerts center
+                                        </h6>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-primary icon-circle">
+                                                    <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <span class="small text-gray-500">December 12, 2019</span>
+                                                <p>A new monthly report is ready to download!</p>
+                                            </div>
+
+                                        </a>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-success icon-circle">
+                                                    <i class="fas fa-donate text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="small text-gray-500">December 7, 2019</span>
+                                                <p>$290.29 has been deposited into your account!</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-warning icon-circle">
+                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span class="small text-gray-500">December 2, 2019</span>
+                                                <p>Spending Alert: We've noticed unusually high spending for your account.</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+                            </li>
+
+
+
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="badge bg-danger badge-counter">
+                                            7
+                                        </span>
+                                        <i class="fas fa-envelope fa-fw"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">
+                                            alerts center
+                                        </h6>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="{% static 'img/avatars/avatar4.jpeg' %}">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Hi there! I am wondering if you can help me with a problem I've been having.</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
+                                                <div class="status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>I have the photos that you ordered last month!</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
+                                            </div>
+                                        </a>
+
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
+                                                <div class="bg-warning status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Last month's report looks great, I am very happy with the progress so far, keep up the good work!</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
+                                            </div>
+                                        </a>
+
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
+                            </li>
+
+                            
+
+
+
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="badge bg-danger badge-counter">
+                                            {{ request.user|cart_items_count }}
+                                        </span>
+                                        <i class="fas  
+                                        fa-shopping-cart  fa-fw h3 text-gray-400"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">
+                                            alerts center
+                                        </h6>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar4.jpeg">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Hi there! I am wondering if you can help me with a problem I've been having.</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
+                                                <div class="status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>I have the photos that you ordered last month!</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
+                                            </div>
+                                        </a>
+
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
+                                                <div class="bg-warning status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Last month's report looks great, I am very happy with the progress so far, keep up the good work!</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
+                                            </div>
+                                        </a>
+
+
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3">
+                                                <img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate">
+                                                    <span>Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</span>
+                                                </div>
+                                                <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
+                                            </div>
+                                        </a>
+
+                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
+                            </li>
+
+
+
+
+
+                            <div class="d-none d-sm-block topbar-divider"></div>
+
+
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-gray-600 small"> {{ request.user.email }} Valerie Luna</span>
+                                        <img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %}">
+                                    </a>
+
+
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
+                                            &nbsp;Profile
+                                        </a>
+
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>
+                                            &nbsp;Settings
+                                        </a>
+
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>
+                                            &nbsp;Activity log
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
+                                            &nbsp;Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}  alert-dismissible">
+                            {{ message  }} 
+ 
+                        </div> 
+                    {% endfor %} 
+                {% endif %}
+                <div class="container-fluid">
+
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright">
+                        <span>
+                            Copyright © ModernMan 2022
+                        </span>
+                    </div>
+                </div>
+            </footer>
+
+
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    
+
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bs-init.js' %}"></script>
+    <script src="{% static 'js/theme.js' %}"></script> 
+    {% block js %}
+    {% endblock %}
+</body>
+
+</html>
+
+

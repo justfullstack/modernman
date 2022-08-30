@@ -28,17 +28,12 @@
                                 <p class="text-center">All fields are required</p>
                             </div>
 
+                            
+
                             <hr/>
 
 
-                            {% if form.non_field_errors %}
-                                {% for error in form.non_field_errors %}
-                                    <div class="alert alert-error">
-                                        {{ error }}
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-
+                       
 
                             <form class="user" 
                             method="POST" >

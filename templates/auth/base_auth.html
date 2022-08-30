@@ -29,6 +29,10 @@
         
         <style>
                 {% block style %}
+
+                body{
+                    font-size: 75%;
+                }
                 .btn {
                     background: #000;
                     color: #fff;
@@ -69,6 +73,14 @@
                     
 
                     <!-- start of body -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}  alert-dismissible">
+                                <p class="text-center">{{ message  }} </p>
+     
+                            </div> 
+                        {% endfor %} 
+                    {% endif %}
                     <div class="container">
                         {% block content %}
 

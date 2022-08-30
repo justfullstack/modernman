@@ -1,9 +1,9 @@
-{% extends "shop/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 
 {% block style %}
-
+     
 {% endblock  %}
 
 
@@ -11,7 +11,7 @@
 
 {% block content %}
     <!-- products section starts  -->
-    <section class="products mt-5 mb-3">
+    <section class="products mt-5 mb-5">
 
         <h1 class="section__heading mb-3">
              All <span>Products</span> 
@@ -24,14 +24,14 @@
                 <div class="box">
 
                     <div class="image">
-                        <a href="{% url 'product' product.slug %}">
+                        <a href="{{ object.get_absolute_url }}">
                             <img src="{% static 'img/products/product-1.jpg' %}"  class="main-img" alt="">
                             <img src="{% static 'img/products/product-1-hover.jpg' %}" class="hover-img" alt="">
                         </a>
                         
                         <div class="icons">
-                            <a href="{% url 'add-to-cart'  %}?product_id={{ product.id }}" class="fas fa-shopping-cart"></a>
-                            <a href="{% url 'product' product.slug %}" class="fas fa-search-plus"></a>
+                            <a href="{{ product.get_add_to_cart_url }}" class="fas fa-shopping-cart"></a>
+                            <a href="{{ product.get_absolute_url }}" class="fas fa-search-plus"></a>
                             <a href="#" class="fas fa-heart"></a>
                             <a href="#" class="fas fa-share"></a>
                         </div>
@@ -43,8 +43,9 @@
                         </div>
                         
                         <div class="price">
-                            Ksh. {{ product.price }}
-                            <span>$399.99</span>
+                            Ksh. {{ product.discount_price }}
+                            <br>
+                            <span>Ksh. {{ product.price }}</span>
                         </div>
 
                         <div class="stars">
@@ -63,14 +64,14 @@
     <!-- products section ends -->
 
     <div class="container justify-content-center align-items-baseline">
-        <div class="row">
+        <div class="row mt-5 mb-5">
             <div class="col-5">
                 <hr>
             </div>
 
 
             <div class="col">
-            <h3 class="text-center border text-center">OR</h3>
+            <h3 class="text-center  text-center">OR</h3>
             </div>
 
 

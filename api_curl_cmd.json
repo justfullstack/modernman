@@ -1,0 +1,42 @@
+
+
+
+
+# To get the list of order lines that are ready to be shipped (status 10)
+curl -H 'Accept: application/json; indent=4' \
+-u dispatch@modernman.com:sweetpoison \
+http: //127.0.0.1:8000/api/orderlines/
+
+
+
+# To get the shipping address of order number 9
+curl -H 'Accept: application/json; indent=4' \
+-u dispatch@modernman.com:sweetpoison \
+http: //127.0.0.1:8000/api/orders/9/
+
+
+
+# Once the dispatch system has order lines and orders lists, 
+# it will be able to start progressively marking these lines as 
+# “processing” (status 20) or “sent” (status 30)
+# We use numeric status codes because that is how we 
+# defined them in the OrderLine model.
+# Once all lines are marked as “sent” or “cancelled”,
+# these lines will not be available in the 
+# order lines list anymore
+
+
+
+curl -H 'Accept: application/json; indent=4' \
+-u dispatch@modernman.com:sweetpoison  -XPUT \
+-H 'Content-Type: application/json' \
+-d '{
+    "status": 20
+}' http: //127.0.0.1:8000/api/orderlines/10/
+
+curl -H 'Accept: application/json; indent=4' \
+-u dispatch@modernman.com:sweetpoison  -XPUT \
+-H 'Content-Type: application/json' \
+-d '{
+    "status": 30
+}' http: //127.0.0.1:8000/api/orderlines/10/

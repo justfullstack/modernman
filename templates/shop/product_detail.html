@@ -4,29 +4,39 @@
 
 {% block content %}
         
-    <div class="row product-details border bg-white">
-        <div class="col-md-5 border  product-details-img"  id="imagebox">
-            Loading...
+    <div class="row  bg-white shadow   product-detail ">
+        <div class="col-md-5 border  product-details-img"  id="imagebox justify-content-center align-items-center">
+            <img src="{% static 'img/products/product-1.jpg' %}"  class="product-img" alt="">
         </div> 
 
         <div class="col product-details-desc p-2 ">
-            <div class="mb-2 product__name-price">
-                <span class="product-name">{{ object.name|title }}</span>
-                <span class="product-price">Ksh. {{ object.price }}</span>
+            <div class="mb-2 product__name-price ">
+                <span class="product-name ">{{ object.name|title }}</span>
+                <span class="product-price  ">
+                    <span  class="text-gray-400" style="text-decoration: line-through;" >Ksh. {{ object.price }}</span>
+                    <span >Ksh. {{ object.discount_price }}</span>
+                </span>
             </div>
 
             <hr>  
 
-            <div class="mb-2">
-                {{ object.description }} 
+            <div class="mb-2 description ">
+                <p>
+                    {{ object.description }} 
+                </p>
             </div>
 
             <hr>
 
             <div class="product-buttons mt-1 mb-1 align-items-center justify-content-center">
-                <a href="#"  class="btn-lg btn">
-                    Add to Cart
-                </a>  
+                <a href="{{ object.get_add_to_cart_url }}"  class="btn-lg btn">
+                    Add to Cart <i class="fas fa-shopping-cart"></i>
+                </a> 
+
+
+                <a href="{{  object.get_remove_from_cart_url }}"  class="  btn-lg btn bg-danger">
+                    Remove &times;
+                </a> 
             </div>
 
             <hr>
