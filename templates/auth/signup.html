@@ -85,23 +85,30 @@
 
 
                             <div class="form-group mb-2 email "> 
-                                <input id="id_email" class="form-control" type="email" name="email" maxlength="20" placeholder="Enter a valid email" required="">
+                                <input id="id_email" class="form-control" type="email" name="email" maxlength="20" placeholder="Enter a valid email..." required="">
 
                                 
                             </div>
                             <div class="email__feedback  mt-2form-control text-center  alert ">
-                                Checking email...   
                             </div>
 
 
                             <div class="form-group mb-2">
-                                {{ form.password1 }}
+                                <input type="password" name="password1" maxlength="60" minlength="8" class="form-control" placeholder="Password..." required="" id="id_password1">
+                            </div>
+                            <div class="password1__feedback  mt-2form-control text-center  alert ">
                             </div>
 
 
                             <div class="form-group mb-2">
-                                {{ form.password2 }}
+                                <input type="password" name="password2" maxlength="60" minlength="8" class="form-control" placeholder="Repeat password..." required="" id="id_password2">
                             </div>
+                            <div class="password2__feedback  mt-2form-control text-center  alert ">
+                            </div>
+
+
+
+
                             <button type="submit" class="btn btn-submit submit__button  w-100 mb-2 ">
                                 Sign Up
                             </button>
