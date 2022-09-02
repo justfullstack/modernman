@@ -2,8 +2,44 @@
 {% load static %}
 
 {% block style %}
+    .alert-info{
+            background: rgb(89, 146, 192);
+            color: rgb(7, 37, 71);
+        }
+
+    form .alert {
+            padding: 0;
+            font-size: 1rem;
+            padding-left: 1rem;
+        }
+
+
     .names{
         justify-content: space-between;
+    }
+
+    .btn{
+        background: #000;
+        color: #fff;
+    }
+
+    .btn:hover{
+        background: #011;
+        color: rgb(255, 94, 0);
+    }
+
+    .btn-facebook, .btn-google{
+            border: none; 
+            border-radius: 0.2rem;
+            font-size: 1rem;
+            font-weight: 200;
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+        }
+
+
+    .btn:active{
+        transform: scale(0.9)
     }
 {% endblock %}
 
@@ -36,20 +72,25 @@
                             method="POST" >
                             {% csrf_token %}
 
-                            <div class="form-group mb-2 row names ">
-                                <div class="col-5 ">
+                            <div class="form-group row names ">
+                                <div class="col-lg-5  col-sm-12  mb-2 ">
                                     {{ form.first_name }}
                                 </div>
 
-                                <div class="col-5  ">
+                                <div class="col-lg-5 col-sm-12  mb-2 ">
                                     {{ form.last_name }}
                                 </div>
                                 
                             </div>
 
 
-                            <div class="form-group mb-2">
-                                {{ form.email }}
+                            <div class="form-group mb-2 email "> 
+                                <input id="id_email" class="form-control" type="email" name="email" maxlength="20" placeholder="Enter a valid email" required="">
+
+                                
+                            </div>
+                            <div class="email__feedback  mt-2form-control text-center  alert ">
+                                Checking email...   
                             </div>
 
 
@@ -61,7 +102,7 @@
                             <div class="form-group mb-2">
                                 {{ form.password2 }}
                             </div>
-                            <button type="submit" class="btn btn-submit  w-100 mb-2 ">
+                            <button type="submit" class="btn btn-submit submit__button  w-100 mb-2 ">
                                 Sign Up
                             </button>
 
@@ -83,7 +124,7 @@
                             </button>
 
                             <div class="form-group mb-2">
-                                {{ form.is_subscribed }} {{ form.is_subscribed.label }}
+                                {{ form.is_subscribed }} <span style="font-size: 1rem;  ">{{ form.is_subscribed.label }}</span>
                             </div>
 
                             <hr>
@@ -99,4 +140,11 @@
             </div>
         </div>
     </div>
+{% endblock %} 
+
+
+{% block js %} 
+    <script src="{% static 'js/signup.js' %}"></script>
+
+    
 {% endblock %} 
