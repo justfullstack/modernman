@@ -7,12 +7,12 @@
     text-decoration: none;
     outline: none;
     border: none;
-    text-transform: capitalize;
+    text-transform: none;
     -webkit-transition: all .2s linear;
     transition: all .2s linear;
-} 
+}
 
-body{
+body {
     font-size: 1.5em;
 }
 
@@ -66,7 +66,7 @@ body{
 
 
 /*==================    PRODUCT CATEGORY STARTS ====================*/
- 
+
 
 /*==================    PRODUCT CATEGORY STYLING ENDS ====================*/
 
@@ -75,7 +75,7 @@ body{
 
 
 /*==================   REVIEW STYLING STARTS ====================*/
- 
+
 /*==================   REVIEW   STYLING ENDS ====================*/
 
 

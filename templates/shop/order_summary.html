@@ -1,0 +1,144 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+
+{% block title %}
+	ModernMan | Order Summary
+{% endblock %}
+
+
+{% block style %}
+
+	.sidebar{
+		display: none;
+	}
+
+	.pay-buttons{
+		display: flex;
+		gap: 1.8rem;
+	}
+
+	.pay-buttons button {
+		justify-content: center;
+		align-items: center;
+	}
+
+
+
+	table{
+		width: 100%;
+		font-size: 70%;
+	}
+
+
+	table{
+		width: 100%;
+		font-size: 70%;
+	}
+
+
+
+	    @media(max-width: 650px){
+
+
+        .shopping-cart .box-container {
+            display: flex;
+            flex-direction: column; 
+        }
+
+         
+
+        table thead tr th span{
+            display: none;
+        }
+
+
+        table thead tr th span{
+            
+            text-overflow: wrap;
+        }
+
+
+         
+    }
+
+
+    @media(max-width: 465px){
+ 
+
+  
+
+
+        .pay-buttons{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+{% endblock %}
+
+{% block content %}
+
+	<h2 class="section__heading">Order Summary</h2>
+
+ 	
+	<table class="table table-striped"> 
+		<thead>
+			<tr class="row">
+				<th class="col-1" scope="col"  >#</th>
+				<th class="col-3" scope="col">I<span>tem</span></th>
+				<th class="col-3" scope="col ">P<span>rice</span> </th>
+				<th class="col-2" scope="col ">Q<span>uantity</span></th>
+				<th class="col-3"  scope="col ">
+					<b>A<span>mount</span></b>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="row">
+				<td class="col-1" >1</td>
+				<td class="col-3">Bangalore</td>
+				<td class="col-3">5600.01</td>
+				<td class="col-2">3</td>
+				<td class="col-3">16800.00</td>
+			</tr> 
+			 
+			<tr class="row">
+				<td class="col-1">
+					<b>Total</b>
+				</td>
+				<td class="col-3"> </td>
+				<td class="col-3"> </td>
+				<td class="col-2"> </td>
+				<td  class="col-3"><b>16800.00</b> </td>
+			</tr>
+
+			 
+		</tbody>
+	</table>
+
+
+	<div class="pay-buttons float-right justify-content-end">
+        <a href="{% url 'cart'   %}">
+            <button type="submit" class="btn  btn-success  mt-3 bg-success mr-3 ">
+                <span class="h2">&LeftArrow;</span> <span class="h5 text-center">Edit  Cart</span> 
+            </button>
+        </a>
+
+        <a href="{% url 'payment'   %}">
+            <button type="submit" class="btn  btn-warning  mt-3 bg-warning border-none mr-3 "  data-toggle="modal" data-target="#select__address_modal">
+                <span class="h5 text-center">Proceed</span> <span class="h2">&RightArrow;</span> 
+            </button>
+
+
+        </a>
+    </div>
+ 
+
+
+	
+ 
+{% endblock %}

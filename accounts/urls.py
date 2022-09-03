@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import AddressCreateView, AddressDeleteView, AddressUpdateView, AddressListView, AddressSelectionView
+from .views import AddressCreateView, AddressDeleteView, AddressUpdateView, AddressListView, AddressSelectionView, PaymentSelectionView
 
 urlpatterns = [
         path(
@@ -31,6 +31,12 @@ urlpatterns = [
             'select-address/',
             AddressSelectionView.as_view(),
             name="select-address"
+        ),
+
+        path(
+            'select-payment/',
+            PaymentSelectionView.as_view(),
+            name="select-payment"
         ),
 
         path(

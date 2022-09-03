@@ -7,15 +7,17 @@ console.log('Signup JS Loaded');
 
 // variable declaration
 const emailInputField = document.querySelector('#id_email');
-const emailFeedbackField = document.querySelector('.email__feedback');
 const passwordOneInputField = document.querySelector('#id_password1');
+const passwordTwoInputField = document.querySelector('#id_password2');
+const emailFeedbackField = document.querySelector('.email__feedback');
 const passwordOneFeedbackField = document.querySelector('.password1__feedback');
-
+const passwordTwoFeedbackField = document.querySelector('.password2__feedback');
 
 const submitBtn = document.querySelector('.submit__button');
 // init
 emailFeedbackField.style.display = 'none';
 passwordOneFeedbackField.style.display = 'none';
+passwordTwoFeedbackField.style.display = 'none';
 
 
 
@@ -151,10 +153,39 @@ passwordOneInputField.addEventListener('keyup', (e) => {
 });
 
 
-// 2. validate password match
+// 3. validate password match
+passwordTwoInputField.addEventListener('keyup', (e) => {
+    let pass1Val = passwordOneInputField.value;
+    let pass2Val = e.target.value;
+
+
+
+    if (pass1Val.length < 1) {
+        passwordTwoFeedbackField.style.display = 'none';
+
+
+    } else {
+        passwordOneFeedbackField.style.display = 'block';
+
+
+        for (x = 0; x <= pass2Val.Length; x++) {
+            if (pass1Val[x] !== pass2Val[x]) {
+
+                passwordTwoInputField.classList.remove('is-valid');
+                passwordTwoInputField.classList.add('is-invalid');
+
+                passwordTwoFeedbackField.classList = '';
+                passwordTwoFeedbackField.classList = 'alert alert-warning';
+                passwordTwoFeedbackField.textContent = `Passwords must match!`;
+            }
+        }
+
+    }
+
+}
+);
 
 console.log('EOF Signup JS');
-
 
 
 

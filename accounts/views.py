@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, F
 from django.template.loader import render_to_string
 #from weasyprint import HTML
 from shop.models import Order
-from .forms import AddressSelectionForm
+from .forms import AddressSelectionForm, PaymentSelectionForm
 from accounts.models import Address
 import tempfile
 # Create your views here.
@@ -26,18 +26,26 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def form_valid(self, form):
-        # delete the cart from the session
-        del self.request.session['cart_id']
 
-        # create order with the submitted addresses data
-        cart = self.request.cart
-        cart.createOrder(
-            form.cleaned_data['billing_address'],
-            form.cleaned_data['shipping_address']
-        )
 
-        return super().form_valid(form)
+class PaymentSelectionView(LoginRequiredMixin, FormView):
+
+    template_name = 'accounts/select_payment.html'
+    form_class = PaymentSelectionForm
+    success_url = reverse_lazy('checkout-done')
+
+    # def form_valid(self, form):
+    #     # delete the cart from the session
+    #     del self.request.session['cart_id']
+
+    #     # create order with the submitted addresses data
+    #     cart = self.request.cart
+    #     cart.createOrder(
+    #         form.cleaned_data['billing_address'],
+    #         form.cleaned_data['shipping_address']
+    #     )
+
+    #     return super().form_valid(form)
 
 
 class AddressListView(LoginRequiredMixin, ListView):
@@ -108,7 +116,6 @@ class InvoiceMixin:
 
             with tempfile.NamedTemporaryFile(delete=True) as outfile:
                 outfile.write(result)
-
 
                 with open(outfile.name, "rb") as out_file:
                     binary_pdf = out_file.read()

@@ -1,0 +1,32 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+
+{% block title %}
+	ModernMan | Order Payment
+
+{% endblock %}
+
+{% block content %}
+	<h2 class="section__heading">Payment</h2>
+
+	<div class="buttons float-right justify-content-end">
+        <a href="{% url 'checkout'   %}">
+            <button type="submit" class="btn  btn-success  mt-3 bg-success mr-3 ">
+                <span class="h2">&LeftArrow;</span> <span class="h5 text-center">Back</span> 
+            </button>
+        </a>
+
+        <a href="{% url 'select-address'   %}">
+            <button type="submit" class="btn  btn-warning  mt-3 bg-warning border-none mr-3 "  data-toggle="modal" data-target="#select__address_modal">
+                <span class="h5 text-center">Proceed</span> <span class="h2">&RightArrow;</span> 
+            </button>
+
+
+        </a>
+    </div>
+{% endblock %}
+
+
+

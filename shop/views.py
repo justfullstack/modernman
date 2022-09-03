@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
-from accounts.models import Address 
-from shop.models import Cart, CartLine, Product , Order 
+from accounts.models import Address
+from shop.models import Cart, CartLine, Product, Order
 from shop.forms import CartLineFormSet
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
@@ -38,7 +38,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'shop/product_detail.html'
 
- 
+
 # add to cart
 def addToCart(request, slug):
     '''
@@ -49,9 +49,9 @@ def addToCart(request, slug):
     #product_slug = request.GET.get("product_slug")
 
     product = get_object_or_404(
-                            Product,
-                            slug=slug
-                            )
+        Product,
+        slug=slug
+    )
 
     cart = request.cart
 
@@ -60,38 +60,36 @@ def addToCart(request, slug):
             user = request.user
         else:
             user = None
-        
-    
+
         cart = Cart.objects.create(user=user)
 
         request.session["cart_id"] = cart.id
 
         cart.save()
 
-            
     (cartline, created) = CartLine.objects.get_or_create(
-                                            cart=cart, 
-                                            product=product
-                                            )
+        cart=cart,
+        product=product
+    )
 
     # if cartline was already initiated
     if not created:
         messages.warning(request, f"'{product.name}' already in the cart!")
 
         cartline.quantity += 1
-        messages.info(request, f" Item quantity updated to {cartline.quantity}!")
+        messages.info(
+            request, f" Item quantity updated to {cartline.quantity}!")
         cartline.save()
     else:
-    
-        messages.success(request, f"'{product.name}' successfully added to the cart!")
 
-    return redirect("product",  slug=product.slug )
+        messages.success(
+            request, f"'{product.name}' successfully added to the cart!")
+
+    return redirect("product",  slug=product.slug)
 
 
-
-# remove from cart 
-def removeFromCart(request, slug): 
-
+# remove from cart
+def removeFromCart(request, slug):
     '''
     adds a product to the cart,  relying on 
     the cart_middleware to position the existing
@@ -100,31 +98,28 @@ def removeFromCart(request, slug):
     #product_slug = request.GET.get("product_slug")
 
     product = get_object_or_404(
-                            Product,
-                            slug=slug
-                            )
+        Product,
+        slug=slug
+    )
 
     cart = request.cart
 
-      
     cartline = CartLine.objects.filter(
-                                    cart=cart, 
-                                    product=product
-                                    )
+        cart=cart,
+        product=product
+    )
 
     # if cartline was already initiated
     if not cartline.exists():
-        messages.error(request, f"'{product.name}' not found in the cart!") 
+        messages.error(request, f"'{product.name}' not found in the cart!")
     else:
         cartline.delete()
-        #cartline.save()
-        messages.error(request, f"'{product.name}' successfully removed from the cart!")
+        # cartline.save()
+        messages.error(
+            request, f"'{product.name}' successfully removed from the cart!")
 
-    return redirect("cart" )
+    return redirect("cart")
 
-
-
-    
     messages.error(
         request, f"'{product.name.title().strip('.')}' successfully removed from the cart!")
 
@@ -155,5 +150,16 @@ def manageCart(request):
 
 
 def completeCheckout(request):
-    return render(request, 'shop/complete_order.html')
+    # def form_valid(self, form):
+    #     # delete the cart from the session
+    #     del self.request.session['cart_id']
 
+    #     # create order with the submitted addresses data
+    #     cart = self.request.cart
+    #     cart.createOrder(
+    #         form.cleaned_data['billing_address'],
+    #         form.cleaned_data['shipping_address']
+    #     )
+
+    #     return super().form_valid(form)
+    return render(request, 'shop/complete_order.html')

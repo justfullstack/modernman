@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+	<form method="POST" class="border"> {% csrf_token %}
+		{{ form }}
+
+		<button type="submit" class="btn">
+			Select Address
+		</button>
+		<a href="{% url 'create-address' %}" class="btn">
+			Add New Address
+		</a>
+	</form>
+{% endblock %}

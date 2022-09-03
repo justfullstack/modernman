@@ -6,7 +6,7 @@ from accounts.models import Address
 
 class AddressSelectionForm(forms.Form):
     '''
-    form dynamically specifies the parameters in the declared fields. In this case we are restricting addresses to the ones that are connected to the current user.
+    form dynamically specifies the parameters in the declared fields. In this case we are restricting addresses to the ones that are connected to the current user, thus requiring authentication.
     '''
 
     billing_address = forms.ModelChoiceField(queryset=None)
@@ -23,7 +23,18 @@ class AddressSelectionForm(forms.Form):
         except Address.DoesNotExist:
             redirect('create-address')
 
+class PaymentSelectionForm(forms.Form):
+    CHOICES = (
+        ('M', 'M-PESA'),
+        ('C', 'Visa/MasterCard'),
+        ('P', 'Paypal'),
+        ('S', 'Stripe'),
+    )  
 
+    method = forms.ChoiceField(choices=CHOICES, default='M', label='Select payment method:')
+
+
+    
 class PeriodSelectForm(forms.Form):
     PERIODS = ((30, "30 days"), (60, "60 days"), (90, "90 days"))
     period = forms.TypedChoiceField(choices=PERIODS, coerce=int, required=True)

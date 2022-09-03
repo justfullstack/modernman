@@ -122,29 +122,26 @@ class TestShopModel(TestCase):
         self.assertEqual(cart2.count(), 1)
 
     def testCreateOrderWorks(self):
-        user = Faker()
+        fake_user = Faker()
 
-        first_name = user.first_name()
-        last_name = user.last_name()
-        email = user.email()
         password = 'Qwerty_Keyboard!'
 
         p1 = Product.objects.create(
             name='product Three',
-            slug=slugify('Product Three'),
+            slug=slugify('product-three'),
             price=Decimal('3130.00'),
         )
 
         p2 = Product.objects.create(
             name='product Four',
-            slug=slugify('Product Four'),
+            slug=slugify('product-four'),
             price=Decimal('3130.00'),
         )
 
         user = CustomUser.objects.create_user(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
+            first_name=fake_user.first_name(),
+            last_name=fake_user.last_name(),
+            email=fake_user.email(),
             password=password,
         )
 
@@ -184,6 +181,7 @@ class TestShopModel(TestCase):
         with self.assertLogs("shop.models", level="INFO") as logs:
             order = cart.createOrder(billing, shipping)
 
+        # assert generation of logs
         self.assertGreaterEqual(len(logs.output), 1)
 
         order.refresh_from_db()

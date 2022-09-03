@@ -8,7 +8,6 @@ from shop.models import Cart, CartLine, Product, ProductImage
 from django.core.files.images import ImageFile
 
 
-
 class Tesignal(TestCase):
     def testCartMergeSignalWorks(self):
         user = CustomUser.objects.create_user(
@@ -20,30 +19,35 @@ class Tesignal(TestCase):
 
         product1 = Product.objects.create(
             name="Sample Product One",
-            description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
+            slug='product-1',
             price=Decimal('78.50')
         )
 
         product2 = Product.objects.create(
             name="Sample Product Two",
-            description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit ratione, ut quo consequuntur fugit sapiente dicta deleniti neque dolor temporibus autem a vero, et suscipit id deserunt. Harum, soluta delectus?",
+            slug='product-2',
             price=Decimal('100.00')
         )
 
         # add anonymous  cart
         response = self.client.get(
             reverse('addToCart'),
-            {'product_id': product1.id}
+            {'product_slug': product1.slug}
         )
 
-        # add to  cart logged_in
-        cart1 = Cart.objects.create(user=user)
+        # add to  anonymous cart
+        anonymous_cart = Cart.objects.create(user=user)
 
         # add to cartline
         CartLine.objects.create(
-            cart=cart1,
+            cart=anonymous_cart,
             product=product2,
             quantity=2
+        )
+
+        CartLine.objects.create(
+            cart=anonymous_cart,
+            product=product1, 
         )
 
         # log in: should trigger merge signal
@@ -52,29 +56,32 @@ class Tesignal(TestCase):
             {'email': "email@domain.com", "password": "Password!"}
         )
 
+        # confirm login
         self.assertTrue(
             auth.get_user(self.client).is_authenticated
         )
-
+        # verify cart contents
         self.assertTrue(Cart.objects.filter(user=user).exists())
 
         cart = Cart.objects.get(user=user)
+
         self.assertEqual(cart.count(), 3)
 
     def testThumbnailsGenerationSignal(self):
         # create product
-        product = Product(
-            name="Armani 2 Piece Suit",
-            price=Decimal("1300.00"),
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Id voluptates possimus iusto dolor nisi. Neque consequuntur nemo ratione distinctio corporis illum molestias. Magnam nostrum, totam minima ullam similique debitis obcaecati."
+        product3 = Product.objects.create(
+            name="Sample Product Two",
+            slug='product-3',
+            price=Decimal('100.00')
         )
-        product.save()
+
+        product3.save()
 
         # add product image
         with open("modernman/core/fixtures/img/product1.png", "rb") as file:
 
             image = ProductImage(
-                product=product,
+                product=product3,
                 image=ImageFile(file, name="product1.png")
             )
 

@@ -22,7 +22,7 @@ def moveFromOrderLineToOrderStatus(sender, instance, **kwargs):
     # whole order as done
     if not instance.order.lines.filter(status__lt=OrderLine.SENT).exists():
         logger.info(
-            f'All lines for order {instance.order.id} procesed. Marking as done...')
+            f'All lines for order {instance.order.id} processed. Marking as done...')
         instance.order.status = Order.DONE
         instance.order.save()
 
@@ -34,7 +34,7 @@ def mergeCartsOnLogin(sender, user, request, **kwargs):
 
     anonymous_cart = getattr(request, "cart", None)
 
-    if anonymous_cart:
+    if anonymous_cart is not None:
         try:
             # get authenticated 'OPEN' cart
             loggedin_cart = Cart.objects.get(
@@ -50,6 +50,7 @@ def mergeCartsOnLogin(sender, user, request, **kwargs):
             # dump anonymous cart
             anonymous_cart.delete()
 
+            # keep authenticated cart
             request.cart = loggedin_cart
 
             logger.info(f"Merged cart to id {loggedin_cart.id}")
@@ -58,7 +59,7 @@ def mergeCartsOnLogin(sender, user, request, **kwargs):
             # if no cart to merge
             anonymous_cart.user = user
             anonymous_cart.save()
-            logger.info(f"Assigned user to cart id {anonymous_cart.id}")
+            logger.info(f"Assigned logged in user to cart id {anonymous_cart.id}")
 
 
 
