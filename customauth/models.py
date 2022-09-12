@@ -41,14 +41,9 @@ class CustomUserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, password):
-
+    def create_superuser(self, email, password, **extra_fields):
         if not email:
             raise ValueError(_("Email address is required!"))
-
-        if not password:
-            raise ValueError(_("Password is required!"))
-
         # validate email
         try:
             validate_email(email)
@@ -56,20 +51,27 @@ class CustomUserManager(BaseUserManager):
         except ValidationError:
             raise ValueError(_("Invalid email address!"))
 
-        email = self.normalize_email(email)
+        if not password:
+            raise ValueError(_("Password is required!"))
 
-        superuser = self.model(email=email)
+        extra_fields.setdefault("is_admin", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        superuser = self.model(email=self.normalize_email(email))
         superuser.set_password(password)
 
         # set permissions
+        superuser.is_active = True
         superuser.is_superuser = True
+        superuser.is_staff = True
         superuser.is_admin = True
 
         if not superuser.is_superuser:
             raise ValueError(_("Superuser must have is_superuser=True."))
 
-        if not superuser.is_admin:
-            raise ValueError(_("Superuser must have is_admin=True."))
+        if not superuser.is_staff:
+            raise ValueError(_("Superuser must have is_staff=True."))
 
         superuser.save(using=self._db)
 
@@ -88,13 +90,15 @@ class CustomUser(AbstractBaseUser):
     first_name = models.TextField(
         'first_name',
         max_length=30,
-        null=False
+        null=True,
+        blank=True
     )
 
     last_name = models.TextField(
         'last_name',
         max_length=30,
-        null=False
+        null=True,
+        blank=True
     )
 
     email = models.EmailField(
@@ -155,6 +159,12 @@ class CustomUser(AbstractBaseUser):
         blank=True
     )
 
+    is_staff = models.BooleanField(
+        default=False,
+        null=True,
+        blank=True
+    )
+
     is_employee = models.BooleanField(
         default=False,
         null=True,
@@ -172,25 +182,29 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return f'{self.email}({self.first_name} {self.last_name})'
 
-    @property
-    def is_staff(self):
-        "Is the user a member of staff? All admins are staff"
-        return self.is_admin
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
 
-    @property
-    def is_employee(self):
-        return self.is_active and (
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app ‘app_label‘?"
+        # Simplest possible answer: Yes, always
+        return True
+
+
+    def save(self, *args, **kwargs):
+        self.is_staff = self.is_admin
+
+        self.is_employee = self.is_active and (
             self.is_superuser
             or self.is_staff
             or self.groups.filter(name='Employees').exists()
         )
 
-    @property
-    def is_dispatcher(self):
-        return self.is_active and (
+        self.is_dispatcher = self.is_active and (
             self.is_superuser
             or self.is_staff
             and self.groups.filter(name="Dispatchers").exists()
         )
-
-
+        super().save(*args, **kwargs)

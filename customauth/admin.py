@@ -1,22 +1,20 @@
-
 import datetime
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from customauth.models import CustomUser 
+from customauth.models import CustomUser
+from django.contrib.auth.models import Group
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-@admin.register(CustomUser)
+
 class CustomUserAdmin(UserAdmin):
     # The forms to add and change user instances
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    
-    list_filter = ('is_active', 'is_admin', )
 
     fieldsets = (
         (None, {
@@ -40,7 +38,6 @@ class CustomUserAdmin(UserAdmin):
                 'is_active',
                 'is_superuser',
                 'groups',
-                'is_admin', 
             )
         }
         ),
@@ -48,7 +45,6 @@ class CustomUserAdmin(UserAdmin):
         ('Important Dates', {
             'fields': (
                 'last_login',
-                'date_joined',
             )
         }
         ),
@@ -73,8 +69,12 @@ class CustomUserAdmin(UserAdmin):
     list_display = (
         "email",
         "first_name",
-        "last_name", 
+        "last_name",
+        'is_active',
+        'is_admin'
     )
+
+    list_filter = ('is_active', 'is_admin', )
 
     search_fields = (
         "email",
@@ -86,4 +86,4 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
- 
+admin.site.register(CustomUser, CustomUserAdmin)
