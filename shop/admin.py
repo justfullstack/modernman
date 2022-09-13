@@ -98,4 +98,29 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [make_active, make_inactive]
 
 
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ('thumbnail_tag', 'product_name')
+    readonly_fields = ('thumbnail',)
+    search_fields = ('product_name',)
+
+    def thumbnail_tag(self, obj):
+        """
+        this function returns HTML for the first column defined
+        in the list_display property above
+
+        """
+        if obj.thumbnail:
+            return format_html(
+                f'<img src="{obj.thumbnail.url}"/>'
+            )
+        return "-"
+
+    # this defines the column name for the list_display
+    thumbnail_tag.short_description = "Product thumbnail"
+
+    def product_name(self, obj):
+        return obj.product.name
+
+
 admin.site.register(models.Product, ProductAdmin)
+admin.site.register(models.ProductImage, ProductImageAdmin)
