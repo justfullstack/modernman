@@ -114,13 +114,7 @@ class CustomUser(AbstractBaseUser):
         blank=True
     )
 
-    balance = models.DecimalField(
-        decimal_places=2,
-        max_digits=10,
-        null=True,
-        blank=True,
-        default=0.00
-    )
+    avatar = models.ImageField(null=True, blank=True)
 
     date_joined = models.DateTimeField(
         'date_joined',
@@ -191,7 +185,6 @@ class CustomUser(AbstractBaseUser):
         "Does the user have permissions to view the app ‘app_label‘?"
         # Simplest possible answer: Yes, always
         return True
-
 
     def save(self, *args, **kwargs):
         self.is_staff = self.is_admin
