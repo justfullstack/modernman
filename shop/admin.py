@@ -122,5 +122,19 @@ class ProductImageAdmin(admin.ModelAdmin):
         return obj.product.name
 
 
+# visualize cartline in admin
+class CartLineInline(admin.TabularInline):
+    model = models.CartLine
+    raw_id_fields = ('product', )
+
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status',)
+    list_editable = ('status', )
+    list_filter = ('status', )
+    inlines = (CartLineInline, )
+
+
 admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.ProductImage, ProductImageAdmin)
+admin.site.register(models.Cart, CartAdmin)
