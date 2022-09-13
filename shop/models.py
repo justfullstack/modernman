@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import logging
-from accounts.models import Address, TITLE_CHOICES, COUNTIES, CITIES, COUNTRIES
 from django.urls import reverse
 from customauth.models import CustomUser
 from django.core import exceptions
+from django.utils.text import slugify
+
 
 logger = logging.getLogger(__name__)
 
@@ -43,8 +44,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     discount_price = models.DecimalField(
         max_digits=8, decimal_places=2, blank=True, default=0.00)
-    # ratings = models.DecimalField('ratings', max_digits=4, decimal_places=2, default=0.00, validators=[
-    #                               MaxValueValidator(5.00, 'Ratings must be between 1 and 5.')])
+    rating = models.DecimalField('ratings', max_digits=4, decimal_places=2, default=0.00, validators=[
+                                 MaxValueValidator(5.00, 'Ratings must be between 1 and 5.')])
     stock_count = models.IntegerField(blank=False, default=1)
     slug = models.SlugField(max_length=48, unique=True, blank=False)
     active = models.BooleanField(default=True)
@@ -63,15 +64,90 @@ class Product(models.Model):
     def get_remove_from_cart_url(self):
         return reverse('remove-from-cart', kwargs={'slug': self.slug})
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product, blank=True)
     image = models.ImageField(upload_to="product_images")
-    thumbnail = models.ImageField(upload_to="product_thumbnails", null=True)
+    thumbnail = models.ImageField(upload_to="product-thumbnails", null=True)
+
+
+# address
+COUNTIES = (
+    ("001", "Mombasa"),
+    ("002", "Kwale"),
+    ("003", "Kilifi"),
+    ("004", "Tana River"),
+    ("005", "Lamu"),
+    ("006", "Taita Taveta"),
+    ("007", "Garissa"),
+    ("008", "Wajir"),
+    ("009", "Mandera"),
+    ("010", "Marsabit"),
+    ("011", "Isiolo"),
+    ("012", "Meru"),
+    ("013", "Tharaka-Nithi"),
+    ("014", "Embu"),
+    ("015", "Kitui"),
+    ("016", "Machakos"),
+    ("017", "Makueni"),
+    ("018", "Nyandarua"),
+    ("019", "Nyeri"),
+    ("020", "Kirinyaga"),
+    ("021", "Murang'a"),
+    ("022", "Kiambu"),
+    ("023", "Turkana"),
+    ("024", "West Pokot"),
+    ("025", "Samburu"),
+    ("026", "Trans-Nzoia"),
+    ("027", "Uasin Gishu"),
+    ("028", "Elgeyo-Marakwet"),
+    ("029", "Nandi"),
+    ("030", "Baringo"),
+    ("031", "Laikipia"),
+    ("032", "Nakuru"),
+    ("033", "Narok"),
+    ("034", "Kajiado"),
+    ("035", "Kericho"),
+    ("036", "Bomet"),
+    ("037", "Kakamega"),
+    ("038", "Vihiga"),
+    ("039", "Bungoma"),
+    ("040", "Busia"),
+    ("041", "Siaya"),
+    ("042", "Kisumu"),
+    ("043", "Homa Bay"),
+    ("044", "Migori"),
+    ("045", "Kisii"),
+    ("046", "Nyamira"),
+    ("047", "Nairobi")
+)
+
+
+CITIES = (
+    ("MBS", "Mombasa"),
+    ("NBI", "Nairobi"),
+    ("KSM", "Kisumu"),
+    ("NKR", "Nakuru")
+)
+
+COUNTRIES = (
+    ("KE", "Kenya"),
+)
+
+TITLE_CHOICES = (
+    ('MR', 'Mr.'),
+    ('MRS', 'Mrs.'),
+    ('MS', 'Ms.')
+)
 
 
 class Order(models.Model):
-    """ 
+    """
     While CartLine can contain a number of products, OrderLine will have exactly one entry per product ordered, thus allowing a status field to have the granularity of a single ordered item.
 
     Customer service will mark orders as PAID, and dispatch managers will mark lines with the relevant status
@@ -94,6 +170,133 @@ class Order(models.Model):
 
     user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, default=None)
+
+    billing_title = models.CharField(
+        max_length=5,
+        choices=TITLE_CHOICES,
+        default='Mr.'
+    )
+
+    billing_name = models.CharField(
+        'name',
+        max_length=60,
+        null=False,
+        blank=False,
+        default=''
+    )
+
+    billing_address = models.CharField(
+        "Address",
+        max_length=60,
+        null=False,
+        blank=False,
+        default=''
+    )
+
+    billing_postal_code = models.CharField(
+        "Postal Code",
+        max_length=12,
+        null=True,
+        blank=True
+    )
+
+    billing_town = models.CharField(
+        'town',
+        max_length=60,
+        null=True,
+        blank=True)
+
+    billing_county = models.CharField(
+        'county',
+        max_length=10,
+        choices=COUNTIES,
+
+        default='Nairobi',
+        null=False,
+        blank=False
+    )
+
+    billing_city = models.CharField(
+        'city',
+        max_length=60,
+        choices=CITIES,
+        null=True,
+        blank=True
+    )
+
+    billing_country = models.CharField(
+        'county',
+        max_length=3,
+        choices=COUNTRIES,
+        default='KE'
+    )
+
+    billing_phone_no = models.IntegerField(default=000)
+
+    shipping_title = models.CharField(
+        max_length=5,
+        choices=TITLE_CHOICES,
+        default='Mr.'
+    )
+
+    shipping_name = models.CharField(
+        'name',
+        max_length=60,
+        null=False,
+        blank=False,
+        default=''
+    )
+
+    shipping_address = models.CharField(
+        "Address",
+        max_length=60,
+        null=False,
+        blank=False,
+        default=''
+    )
+
+    shipping_postal_code = models.CharField(
+        "Postal Code",
+        max_length=12,
+        null=True,
+        blank=True
+    )
+
+    shipping_town = models.CharField(
+        'town',
+        max_length=60,
+        null=True,
+        blank=True)
+
+    shipping_county = models.CharField(
+        'county',
+        max_length=10,
+        choices=COUNTIES,
+
+        default='Nairobi',
+        null=False,
+        blank=False
+    )
+
+    shipping_city = models.CharField(
+        'city',
+        max_length=60,
+        choices=CITIES,
+        null=True,
+        blank=True
+    )
+
+    shipping_country = models.CharField(
+        'county',
+        max_length=3,
+        choices=COUNTRIES,
+        default='KE'
+    )
+
+    shipping_phone_no = models.IntegerField(default=000)
+
+    date_updated = models.DateTimeField(auto_now=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class OrderLine(models.Model):
