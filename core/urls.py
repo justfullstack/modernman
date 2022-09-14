@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
 from django.views.generic import TemplateView
+
+from core import settings
 
 urlpatterns = [
     path(
@@ -39,6 +42,11 @@ urlpatterns = [
         name='products'
     ),
 
+
+
+
+
+
     path(
         'auth/',
         include('customauth.urls'),
@@ -51,4 +59,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='index.html'),
         name='home'
     ),
-]
+] + static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)

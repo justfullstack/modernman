@@ -731,9 +731,9 @@ body{
 
                             <li class="nav-item dropdown no-arrow mx-1">
                                 <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="{% url 'cart' %}">
                                         <span class="badge bg-danger badge-counter">
-                                            {{ request.user|cart_items_count }}
+                                            {{  user|cart_items_count }}
                                         </span>
                                         <i class="fas  
                                         fa-shopping-cart  fa-fw h3 text-gray-400"></i>
@@ -798,7 +798,7 @@ body{
                                             </div>
                                         </a>
 
-                                        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                        <a class="dropdown-item text-center small text-gray-500" href="{% url 'cart' %}">Show All Alerts</a>
                                     </div>
                                 </div>
 
@@ -818,7 +818,7 @@ body{
                                 <div class="nav-item dropdown no-arrow">
                                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
                                         <span class="d-none d-lg-inline me-2 text-gray-600 small"> {{  user }}</span>
-                                        <img class="border rounded-circle img-profile" src="{% static 'img/avatars/avatar1.jpeg' %}">
+                                        <img class="border rounded-circle img-profile" src="{{ user.avatar.url }}">
                                     </a>
 
 

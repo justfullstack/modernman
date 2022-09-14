@@ -171,7 +171,7 @@ class CustomUser(AbstractBaseUser):
         blank=True
     )
 
-    groups = models.ManyToManyField(Group)
+    groups = models.ManyToManyField(Group,  blank=True)
 
     def __str__(self):
         return f'{self.email}({self.first_name} {self.last_name})'
