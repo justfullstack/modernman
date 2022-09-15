@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.test import TestCase
+from django.urls import reverse
 from faker import Faker
 from accounts.models import Address
 from customauth.models import CustomUser
@@ -157,16 +158,7 @@ class TestShopModel(TestCase):
 
         )
 
-        shipping = Address.objects.create(
-            user=user,
-            title='MR.',
-            name="John Kimball",
-            address="127 Kilimani",
-            town='Nairobi',
-            city="Nairobi",
-            county='047',
-            country="KE",
-        )
+        shipping = billing  # shipping address same as billing address
 
         cart = Cart.objects.create(user=user)
 
@@ -199,3 +191,92 @@ class TestShopModel(TestCase):
 
         self.assertEquals(lines[0].product, p1)
         self.assertEquals(lines[1].product, p2)
+
+
+class TestAddressModel(TestCase):
+    def test_address_list_page_returns_only_owned(self):
+        user1 = CustomUser.objects.create_user(
+            first_name='user',
+            last_name='1',
+            email='user1@domain.ext',
+            password='seMePassW@R_d',
+            is_active=True,
+
+        )
+
+        user2 = CustomUser.objects.create_user(
+            first_name='user',
+            last_name='2',
+            email='user2@domain.ext',
+            password='seMePassW@R_d',
+            is_active=True
+
+        )
+
+        Address.objects.create(
+            user=user1,
+            title='Mr.',
+            name='User One',
+            address='Address One Goes Here',
+            postal_code='10030',
+            town='Nairobi',
+            county='Nairobi',
+            city='Nairobi',
+            country='Kenya'
+        )
+
+        Address.objects.create(
+            user=user2,
+            title='Mr.',
+            name='User Two',
+            address='Address Two Goes Here',
+            postal_code='20030',
+            town='Nairobi',
+            county='Nairobi',
+            city='Nairobi',
+            country='Kenya'
+
+        )
+
+        self.client.force_login(user2)
+
+        response = self.client.get(reverse("address-list"))
+
+        self.assertEqual(response.status_code, 200)
+
+        address_list = Address.objects.filter(user=user2)
+        self.assertEqual(
+            list(response.context["object_list"]),
+            list(address_list),
+        )
+
+    def test_address_create_stores_user(self):
+        user3 = CustomUser.objects.create_user(
+            first_name='user',
+            last_name='3',
+            email='user3@domain.ext',
+            password='seMePassW@R_d',
+            is_active=True,
+
+        )
+
+        post_data = {
+            'user': user3,
+            'title':  'Mr.',
+            'name': 'User Two',
+            'address': 'Address Two Goes Here',
+            'postal_code': '20030',
+            'town': 'Nairobi',
+            'county': 'Nairobi',
+            'city': 'Nairobi',
+            'country': 'Kenya'
+        }
+
+        self.client.force_login(user3)
+        self.client.post(
+            reverse("create-address"), post_data
+        )
+
+        self.assertTrue(
+            Address.objects.filter(user=user3).exists()
+        )
