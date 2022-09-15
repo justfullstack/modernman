@@ -76,6 +76,9 @@ TITLE_CHOICES = (
 
 class Address(models.Model):
 
+    class Meta:
+        verbose_name_plural = 'Addresses'
+
     user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE
@@ -139,4 +142,4 @@ class Address(models.Model):
     phone_no = models.IntegerField(default=000)
 
     def __str__(self):
-        return f"{self.title}., {self.name}, {self.address} - {self.postal_code}, {self.town},  {self.county}, {self.city},  {self.country}, {self.phone_no}"
+        return f"{self.title}. {self.name},\n{self.address} - {self.postal_code},\n{self.town}, \n{self.county}, \n{self.city},  \n{self.country}, \n{self.phone_no}"

@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import redirect
-
+from django.contrib import messages
 from accounts.models import Address
 
 
@@ -13,6 +13,7 @@ class AddressSelectionForm(forms.Form):
     shipping_address = forms.ModelChoiceField(queryset=None)
 
     def __init__(self, user, *args, **kwargs):
+
         super().__init__(*args, **kwargs)
 
         try:
@@ -23,18 +24,19 @@ class AddressSelectionForm(forms.Form):
         except Address.DoesNotExist:
             redirect('create-address')
 
+
 class PaymentSelectionForm(forms.Form):
     CHOICES = (
         ('M', 'M-PESA'),
         ('C', 'Visa/MasterCard'),
         ('P', 'Paypal'),
         ('S', 'Stripe'),
-    )  
+    )
 
-    method = forms.ChoiceField(choices=CHOICES, default='M', label='Select payment method:')
+    method = forms.ChoiceField(
+        choices=CHOICES,  label='Select payment method:')
 
 
-    
 class PeriodSelectForm(forms.Form):
     PERIODS = ((30, "30 days"), (60, "60 days"), (90, "90 days"))
     period = forms.TypedChoiceField(choices=PERIODS, coerce=int, required=True)

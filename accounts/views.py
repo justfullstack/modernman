@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import path, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.template.loader import render_to_string
+# from weasyprint import HTML
 #from weasyprint import HTML
 from shop.models import Order
 from .forms import AddressSelectionForm, PaymentSelectionForm
@@ -18,7 +19,7 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
 
     template_name = 'accounts/select_address.html'
     form_class = AddressSelectionForm
-    success_url = reverse_lazy('checkout-done')
+    success_url = reverse_lazy('select-payment')
 
     def get_form_kwargs(self):
         '''extracts the user from the request and returns it in a dictionary - dictionary is then passed to the form by the superclass'''
@@ -26,6 +27,21 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    # create order
+
+    def form_valid(self, form):
+
+        # create order with the submitted addresses data
+        cart = self.request.cart
+        cart.createOrder(
+            form.cleaned_data['billing_address'],
+            form.cleaned_data['shipping_address']
+        )
+
+        # delete the cart from the session
+        del self.request.session['cart_id']
+
+        return super().form_valid(form)
 
 
 class PaymentSelectionView(LoginRequiredMixin, FormView):
@@ -33,19 +49,6 @@ class PaymentSelectionView(LoginRequiredMixin, FormView):
     template_name = 'accounts/select_payment.html'
     form_class = PaymentSelectionForm
     success_url = reverse_lazy('checkout-done')
-
-    # def form_valid(self, form):
-    #     # delete the cart from the session
-    #     del self.request.session['cart_id']
-
-    #     # create order with the submitted addresses data
-    #     cart = self.request.cart
-    #     cart.createOrder(
-    #         form.cleaned_data['billing_address'],
-    #         form.cleaned_data['shipping_address']
-    #     )
-
-    #     return super().form_valid(form)
 
 
 class AddressListView(LoginRequiredMixin, ListView):
@@ -57,21 +60,48 @@ class AddressListView(LoginRequiredMixin, ListView):
 
 
 class AddressCreateView(LoginRequiredMixin, CreateView):
+
     model = Address
+
     template_name = 'accounts/address_form.html'
-    fields = ['address', 'postal_code', ' town',
+    fields = ['address', 'postal_code', 'town',
               'county', 'city', 'country', 'phone_no']
+    success_url = reverse_lazy("address-list")
+    
+    
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save(commit=True)
+        return super().form_valid(form)
+
+
+    
 
 
 class AddressUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'accounts/address_update.html'
+
     model = Address
-    fields = '__all__'
+
+    template_name = 'accounts/address_update.html'
+    fields = ['address', 'postal_code', 'town',
+              'county', 'city', 'country', 'phone_no']
+    success_url = reverse_lazy("address-list")
+
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
 
 class AddressDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = 'accounts/confirm_delete.html'
+
     model = Address
+
+    template_name = 'accounts/confirm_delete.html'
+    success_url = reverse_lazy("address-list")
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
 
 ############################# generate invoice #########################
@@ -105,10 +135,12 @@ class InvoiceMixin:
 
             html_string = render_to_string("invoice.html",  {"order": order})
 
-            html = HTML(string=html_string,
-                        base_url=request.build_absolute_uri(), )
+            html = None
+            # html = HTML(string=html_string,
+            #             base_url=request.build_absolute_uri(), )
 
-            result = html.write_pdf()
+            # result = html.write_pdf()
+            result = None
 
             response = HttpResponse(content_type="application/pdf")
             response["Content-Disposition"] = f"inline; filename=invoice_{order_id}.pdf"
