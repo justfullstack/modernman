@@ -17,7 +17,7 @@
              All <span>Products</span> 
         </h1>
 
-        <div class="box-container">
+        <div class="box-container "  >
             
     
             {% for product in page_obj %} 
@@ -43,17 +43,13 @@
                         </div>
                         
                         <div class="price">
-                            Ksh. {{ product.discount_price }}
+                            KES. {{ product.discount_price }}
                             <br>
-                            <span>Ksh. {{ product.price }}</span>
+                            <span>KES. {{ product.price }}</span>
                         </div>
 
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                        <div class="product__rating stars"> 
+                            {{ product.rating }} 
                         </div>
 
                     </div>
@@ -63,14 +59,14 @@
     </section>
     <!-- products section ends -->
 
-    <div class="container justify-content-center align-items-baseline">
+    <div class="container-fluid justify-content-center align-items-center">
         <div class="row mt-5 mb-5">
-            <div class="col-5">
+            <div class="col-5 mt-3">
                 <hr>
             </div>
 
 
-            <div class="col">
+            <div class="col-2">
             <h3 class="text-center  text-center">OR</h3>
             </div>
 
@@ -89,49 +85,142 @@
             Shop by Category
         </div>
 
-              
-
-        <div class="row box-container">
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img1.png' %}"  alt="">
-                <h3>televisions</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img2.png' %}" alt="">
-                <h3>smartphones</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img3.png' %}"  alt="">
-                <h3>headphones</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img4.png' %}"  alt="">
-                <h3>smartwatches</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img5.png' %}"  alt="">
-                <h3>games</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img6.png' %}"  alt="">
-                <h3>camera</h3>
-            </a>
-
-            <a href="#" class="box  shadow ">
-                <img src="{% static 'img/products/cat_img7.png' %}"  alt="">
-                <h3>speakers</h3>
-            </a>
-
-        </div>
-
+           {% include 'includes/category_list.html'  %}
     </section> 
 
 
 
 {% endblock  %} 
+
+{% block js %}
+    <script>
+        "use strict";
+        console.log('PD LIST JS LOADED')
+
+
+        const renderRatings = (rating) => {
+
+            let stars;
+
+            // 0 to 0.5
+            if (rating >= 0.0 && rating < 0.5 ){
+                stars = `
+                        <span class="h6 text-gray-500"> ( No ratings ) </span>
+                        `   
+            }
+
+            // 0.5 to 1.0
+            if (rating >= 0.5 && rating < 1.0 ){
+                stars = ` 
+                        <i class="fas fa-star-half-alt">  
+                        `
+            }
+
+            // 1.0 to 1.5
+            if (rating >= 1.0 && rating < 1.5 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt">  
+                        `   
+            }
+
+            // 1.5 to 2.0
+            if (rating >= 1.5 && rating < 2.0 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt">  
+                        `               
+            }
+
+            // 2.0 to 2.5
+            if (rating >= 2.0 && rating < 2.5 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        `               
+            }
+
+            // 2.5 to 3.0
+            if (rating >= 2.5 && rating < 3.0 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star-half-alt">
+                        `               
+            }
+
+            // 3.0 to 3.5
+            if (rating >= 3.0 && rating < 3.5 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i> 
+                        `               
+            }
+
+            // 3.5 to 4.0
+            if (rating >= 3.5 && rating < 4.0 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star-half-alt">
+                        `               
+            }
+
+            // 4.0  to 4.5
+            if (rating >= 4.0 && rating < 4.5 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i>
+                        `               
+            }
+
+            // 4.5  to 4.5
+            if (rating >= 4.5 && rating < 5.0 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt">
+                        `               
+            }
+
+            // 5.0
+            if (rating >= 4.5 && rating < 5.0 ){
+                stars = ` 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i> 
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        `               
+            }
+
+             
+
+
+             
+
+            return stars
+        };
+
+
+        const product_ratings = document.querySelectorAll('.product__rating');
+
+         
+        product_ratings.forEach((rating)=> {
+            let product_rating = Number(rating.textContent)
+            let res = renderRatings(product_rating)
+            console.log(product_rating);
+            console.log(res);
+
+            rating.innerHTML = '';
+            rating.innerHTML = res;
+        })
+        
+    </script> 
+{% endblock %}
