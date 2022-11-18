@@ -7,10 +7,22 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4su-p^f9#mxx#e@h+stjlfd&sw4b)g4@8pnh+h#-&=fs8jm8cc'
+# SECRET_KEY = 'django-insecure-4su-p^f9#mxx#e@h+stjlfd&sw4b)g4@8pnh+h#-&=fs8jm8cc'
+
+# Read SECRET_KEY from an environment variable
+# import os
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+
+#   OR
+
+# Read secret key from a file
+with open('secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = [ "*" ]
 
@@ -30,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -225,3 +238,13 @@ LOG_OUT_REDIRECT_URL = 'login'
 # deploy on heroku
 import django_heroku
 django_heroku.settings(locals())
+
+
+# deployment
+SESSION_COOKIE_SECURE = True
+
+
+# Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
