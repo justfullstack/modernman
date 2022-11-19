@@ -114,13 +114,13 @@ class CustomUser(AbstractBaseUser):
         blank=True
     )
 
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True, default="media/avatars/default-avatar.png")
 
     date_joined = models.DateTimeField(
         'date_joined',
         null=True,
         blank=True,
-        auto_now=True
+        auto_now_add=True
     )
 
     last_login = models.DateTimeField(

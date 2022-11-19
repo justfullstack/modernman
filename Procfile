@@ -1,1 +1,1 @@
-web: python manage.py runserver 0.0.0.0:8500
+web: python manage.py migrate && gunicorn cjndev-modernman.wsgi

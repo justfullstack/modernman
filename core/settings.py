@@ -5,26 +5,25 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-4su-p^f9#mxx#e@h+stjlfd&sw4b)g4@8pnh+h#-&=fs8jm8cc'
+# Read SECRET_KEY from an environment variable 
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
-# Read SECRET_KEY from an environment variable
-# import os
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 #   OR
 
 # Read secret key from a file
-with open('secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+# with open('secret_key.txt') as f:
+#     SECRET_KEY = f.read().strip()
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = [ "*" ]
+# ALLOWED_HOSTS = [ "*" ]
 
 # Application definition
 
@@ -119,9 +118,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images) 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_URL = "/static/"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/static")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Deployment: path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = BASE_DIR/'static'
+
+# The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/'
 
 # media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -236,15 +241,28 @@ LOG_OUT_REDIRECT_URL = 'login'
 
 
 # deploy on heroku
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())
 
 
 # deployment
 SESSION_COOKIE_SECURE = True
+
+# ALLOWED_HOSTS = ['web-production-3640.up.railway.app', '127.0.0.1'] 
+ALLOWED_HOSTS = ['railway.com' 'web-production-3640.up.railway.app', '127.0.0.1'] 
+
+
+## (replace the string below with your own site URL):
+# CSRF_TRUSTED_ORIGINS = ['https://web-production-3640.up.railway.app']
+
+
+# During development/for this tutorial you can instead set just the base URL
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', '127.0.0.1'] 
+
 
 
 # Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
