@@ -59,6 +59,7 @@ def mergeCartsOnLogin(sender, user, request, **kwargs):
             # if no cart to merge
             anonymous_cart.user = user
             anonymous_cart.save()
+            request.cart = anonymous_cart
             logger.info(f"Assigned logged in user to cart id {anonymous_cart.id}")
 
 

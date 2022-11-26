@@ -1,50 +1,81 @@
 {% extends 'shop/base.html' %}
 {% load static %}
 
+
+
+{% block style %}
+    .sidebar{
+        display:none;
+    }
+
+    .br-5{
+        border-radius: 5px;
+    }
+
+
+{% endblock %}
+
 {% block content %}
     <!-- address list info section starts  -->
-    <h1 class="section__heading text-center">My Adresses</h1>
-    <section class="info-container">
-
-        <div class="box-container">
-
+    <h1 class=" section__heading ">My Adresses</h1>
+    <hr>
+    <section class="info-container container-fluid mt-3  mb-5">
+        <div class="row gap-3  ">
             {% for address in object_list %}
-
-                <div class="box"> 
-                    <p>{{ address.name }}</p>
-                    <p>{{ address.address }}</p>
-                    <p>{{ address.town }}</p>
-                    <p>{{ address.county }}</p>
-                    <p>{{ address.city }}</p>
-                    <p>{{ address.country }}</p>
-                    <p>{{ address.hone_no }}</p>
-                </div>
-                {% if not forloop.last %}
+                <div class="col-lg-3 bg-white border   py-3 br-5  shadow" style=" ">
+                    <div class="mt-2   br-5">
+                        <p>
+                            <b>Name: </b> <small>{{ address.name }}</small>
+                        </p>
+                        <p>
+                            <b>Address: </b> <small>{{ address.address }}</small>
+                        </p>
+                        <p>
+                            <b>Postal Code: </b> <small>{{ address.postal_code }}</small>
+                        </p>
+                        <p>
+                            <b>Town: </b> <small>{{ address.town }}</small>
+                        </p>
+                        <p>
+                            <b>County: </b> <small>{{ address.county }}</small>
+                        </p>
+                        <p>
+                            <b>City: </b> <small>{{ address.city }}</small>
+                        </p>
+                        <p>
+                            <b>Country: </b> <small>{{ address.country }}</small>
+                        </p>
+                        <p>
+                            <b>Phone: </b> <small>{{ address.phone_no }}</small>
+                        </p>
+                        <!-- <h4 class="fw-bold">Name: <sm class="small">{{ address.name }}</sm>,</h4>
+                        <h4>Address: <span class="small">{{ address.address }}</span>,</h4>
+                        <h4>Town: <span class="small">{{ address.town }}</span>,</h4>
+                        <h4>County: <span class="small">{{ address.county }}</span>,</h4>
+                        <h4>City: <span class="small">{{ address.city }}</span>,</h4>
+                        <h4>County: <span class="small">{{ address.country }}</span>,</h4>
+                        <h4>Tel: <span class="small">{{ address.phone_no }}</span>.</h4>  -->
+                    </div>
                     <hr>
-                {% endif %}
-
-                <div class="row">
-                    <a href="{% url 'update-address' address.id %} " class="btn">
-                        Update Address
-                    </a>
-
-
-                    <a href="{% url 'delete-address' address.id %}" class="btn">
-                        Delete Address
-                    </a>
+                    <div>
+                        <a href="{% url 'update-address' address.id %} " class="btn">
+                            Update Address
+                        </a>
+    
+    
+                        <a href="{% url 'delete-address' address.id %}" class="btn">
+                            Delete Address
+                        </a>
+                    </div>
                 </div>
-
-
-	        {% endfor %}
-
-            <div>
-                <a href="{% url 'address_create' %}" class="btn">
-                    Add New Address
-                </a>
-            </div>
-            
+                {% endfor %}  
+        </div> 
+        <hr>
+        <div class=" mb-5 d-flex justify-content-center align-items-center">
+            <a href="{% url 'create-address' %}" class="btn btn-block shadow" >
+                Add New Address
+            </a>
         </div>
-
     </section>
 
         <!-- address list section ends -->

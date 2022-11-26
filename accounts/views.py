@@ -1,12 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import path, reverse_lazy
+from django.contrib import messages
+from django.urls import path, reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.template.loader import render_to_string
 # from weasyprint import HTML
 #from weasyprint import HTML
-from shop.models import Order
+from shop.models import Order, Cart
 from .forms import AddressSelectionForm, PaymentSelectionForm
 from accounts.models import Address
 import tempfile
@@ -19,7 +20,7 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
 
     template_name = 'accounts/select_address.html'
     form_class = AddressSelectionForm
-    success_url = reverse_lazy('select-payment')
+    success_url = reverse_lazy('checkout-done')
 
     def get_form_kwargs(self):
         '''extracts the user from the request and returns it in a dictionary - dictionary is then passed to the form by the superclass'''
@@ -30,7 +31,6 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
     # create order
 
     def form_valid(self, form):
-
         # create order with the submitted addresses data
         cart = self.request.cart
         cart.createOrder(
@@ -40,6 +40,7 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
 
         # delete the cart from the session
         del self.request.session['cart_id']
+        Cart.objects.filter(user=self.request.user).delete()
 
         return super().form_valid(form)
 
@@ -48,7 +49,7 @@ class PaymentSelectionView(LoginRequiredMixin, FormView):
 
     template_name = 'accounts/select_payment.html'
     form_class = PaymentSelectionForm
-    success_url = reverse_lazy('checkout-done')
+    success_url = reverse_lazy('select-address')
 
 
 class AddressListView(LoginRequiredMixin, ListView):
@@ -56,24 +57,28 @@ class AddressListView(LoginRequiredMixin, ListView):
     template_name = 'accounts/address_list.html'
 
     def get_queryset(self):
-        return self.model.objects.get(user=self.request.user)
+        return self.model.objects.filter(user=self.request.user)
 
 
 class AddressCreateView(LoginRequiredMixin, CreateView):
 
     model = Address
-
-    template_name = 'accounts/address_form.html'
-    fields = ['address', 'postal_code', 'town',
-              'county', 'city', 'country', 'phone_no']
     success_url = reverse_lazy("address-list")
+    template_name = 'accounts/address_form.html'
+    fields = ['title', 'name', 'address', 'postal_code', 'town',
+              'county', 'city', 'country', 'phone_no']
+    
     
     
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = self.request.user
-        obj.save(commit=True)
+        obj.save()
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        messages.success(self.request, "Address added successfully...")
+        return reverse_lazy("address-list")
 
 
     
@@ -97,11 +102,14 @@ class AddressDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Address
 
-    template_name = 'accounts/confirm_delete.html'
-    success_url = reverse_lazy("address-list")
+    template_name = 'accounts/confirm_delete.html' 
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
+    
+    def get_success_url(self):
+        messages.error(self.request, "Address entry deleted...")
+        return reverse_lazy("address-list")
 
 
 ############################# generate invoice #########################

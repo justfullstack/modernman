@@ -7,8 +7,11 @@
 	<form method="POST">
 		{% csrf_token %}
 		<p>Are you sure you want to delete it?</p>
-		<button type="submit" class="btn btn-primary">
-			Submit
+		<button type="submit" class="btn bg-danger">
+			Yes, Delete <i class="fa fa-trash" aria-hidden="true"></i>
 		</button>
+		<a href="{% url 'address-list' %}" class="btn btn-primary">
+			<i class="fa fa-arrow-left" aria-hidden="true"></i> No, Go Back
+		</a>
 	</form>
 {% endblock content %}

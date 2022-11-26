@@ -1,12 +1,15 @@
 {% extends "shop/base.html" %}
 {% load static %}
 
+{% block title %} 
+    {{ product.name }} | ModernMan
+{% endblock %}
 
 {% block content %}
         
     <div class="row  bg-white shadow   product-detail ">
-        <div class="col-md-5 border  product-details-img"  id="imagebox justify-content-center align-items-center">
-            <img src="{% static 'img/products/product-1.jpg' %}"  class="product-img" alt="">
+        <div class="col-lg-6 col-md-12  product-details-img  d-flex justify-content-center align-items-center" id="imagebox justify-content-center align-items-center" style="padding: auto ; align-self: center; justify-self:center; height: 100%;">
+            <img src="{% static 'img/products/product-1.jpg' %}"  class="product-img" alt="" style="">
         </div> 
 
         <div class="col product-details-desc p-2 ">
@@ -24,6 +27,16 @@
                 <p>
                     {{ object.description }} 
                 </p>
+            </div>
+
+            <hr>
+
+            <div class="product-buttons mt-1 mb-1 align-items-center justify-content-center">
+                <i class="fas fa-star text-orange"></i>
+                <i class="fas fa-star text-orange"></i>
+                <i class="fas fa-star text-orange"></i>
+                <i class="fas fa-star text-orange"></i>
+                <i class="fas fa-star-half-alt text-orange"></i>
             </div>
 
             <hr>

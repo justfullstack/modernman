@@ -3,6 +3,7 @@ from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 from customauth.views import SignupView, activationView, AuthenticationView
 from core.validators import EmailValidationView, PasswordOneValidationView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
 
@@ -24,6 +25,12 @@ urlpatterns = [
         'login/',
         AuthenticationView.as_view(),
         name='login'
+    ),
+    
+    path(
+        'logout/',
+        LogoutView.as_view(),
+        name='logout'
     ),
 
     path(

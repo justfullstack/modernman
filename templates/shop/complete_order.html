@@ -2,7 +2,27 @@
 {% load static %}
 
 
+{% block style %}
+
+{% endblock %}
+
 {% block content %}
-	<h2 class="section__heading">Order Complete!</h2>
-	<p >Thanks for your order.</p>
+	<div class="container-fluid "  >
+		<div class="row">
+			<div class=" shadow py-5 " style="border: 1px solid #000; border-radius: 5px;   ; padding: auto;">
+				<div class="img-fluid py-3">
+					<img src="{% static 'img/logos/logo-black-main.png' %}" alt="" class="img-fluid  " style="height: 8rem ; object-fit: contain; width: 100%; ">
+				</div>
+				<div class="d-flex justify-content-center  text-center">
+					<h2 class="section__heading text-center">Thanks for your order.</h2>
+				</div>
+					<p class="text-center" style="font-size: 1.2rem;">We'll contact you to confirm shipping!</p>
+				<!-- <em style="font-size: 0.8rem;">You will receive an email with further information pertaininng shipping of your order.</em>  -->
+
+				<div class="d-flex justify-content-center py-3">
+					<a href="{% url 'products' 'all' %}" class="btn px-5 " >Shop More</a>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

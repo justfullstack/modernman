@@ -1,12 +1,36 @@
-{% extends " base.html" %} 
+{% extends "base.html" %} 
 {% load static %}
 
 
-{% block content %}
-	<form method="POST" class="border"> {% csrf_token %}
-		{{ form }}
 
-		<button type="submit" class="btn">
+{% block style %}
+	.select-payment{  
+		display: flex;
+		flex-direction: column;
+		padding: 1rem auto;
+	}
+
+	.select-payment select{  
+			border: 1px solid gray;
+			margin: 0 1rem;
+			border-radius: 5px;
+			padding: 0.3rem 0.1rem;
+			text-align: center;
+		}
+	.select-payment button{ 
+		margin: 1rem auto;
+	}
+
+{% endblock %}
+
+{% block content %}
+	<form method="POST" class=" select-payment"> {% csrf_token %}
+		<div class="">
+			{{ form }}
+		</div>
+
+		<br>
+		<button type="submit" class="btn btn-sm w-50">
 			Select
 		</button>
  

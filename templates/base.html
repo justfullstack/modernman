@@ -49,8 +49,25 @@ body{
     font-size: 1.5em;
 }
 
+.br-50{
+    border-radius: 50%;
+}
+
+
+.navbar{
+    align-items: center;
+}
+
+.mx-auto{
+    margin: 0 auto;
+}
+
 
 /*==================    GENERAL STYLING STARTS ====================*/
+.alert{
+    font-size: 50%;
+    text-align: center;
+}
  .alert-success{color:#117853;background-color:#d2f4e8;border-color:#bbefdc}
 
  .alert-success {color:#0e6042} 
@@ -76,7 +93,8 @@ body{
 .btn {
     background: #000;
     color: #fff;
-    border-radius: 3px;
+    border-radius: 5px;
+    border: none;
 }
 
 .btn:hover {
@@ -111,7 +129,8 @@ body{
         }
 
         .products .box-container .box {
-            border: 1px solid #333;
+
+            border: 1px solid #000;
             text-align: center;
             background: #fff;
             -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
@@ -426,77 +445,132 @@ body{
 
                 
         /*==================   FAQ STARTS ====================*/
-        .faq .accordion-container {
-            max-width: 70rem;
-            margin: 0 auto;
+        .accordion-body{
+            font-size: 1rem;
+            text-align: left;
         }
-
-        .faq .accordion-container .accordion {
-            background: #fff;
-            margin-bottom: 1.5rem;
-            -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-        }
-
-        .faq .accordion-container .accordion:last-child {
-            margin-bottom: .5rem;
-        }
-
-        .faq .accordion-container .accordion.active .accordion-heading {
-            background: #0984e3;
-        }
-
-        .faq .accordion-container .accordion.active .accordion-heading i {
-            -webkit-transform: rotate(180deg);
-            transform: rotate(180deg);
-        }
-
-        .faq .accordion-container .accordion.active .accordioin-content {
-            display: block;
-        }
-
-        .faq .accordion-container .accordion .accordion-heading {
-            padding: 2rem;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            align-items: center;
-            gap: 1rem;
-            -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
-            justify-content: space-between;
-            background: #333;
-            cursor: pointer;
-        }
-
-        .faq .accordion-container .accordion .accordion-heading h3 {
-            font-size: 2rem;
-            color: #fff;
-        }
-
-        .faq .accordion-container .accordion .accordion-heading i {
-            font-size: 2rem;
-            color: #fff;
-        }
-
-        .faq .accordion-container .accordioin-content {
-            padding: 2rem;
-            font-size: 1.5rem;
-            line-height: 2;
-            color: #666;
-            display: none;
-            -webkit-animation: fadeIn .2s linear;
-            animation: fadeIn .2s linear;
-        }
-
-
+         
 
         /*==================   FAQ STYLING ENDS ====================*/
 
 
+        /* start testimonials carousel */
+        .carousel {
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 5px;
+        padding: 2em; 
+        border: 1px solid gray;;
+	}
 
+    .carousel  .fa-quote-left,  .fa-quote-right{
+		font-size: 1.5em; 
+        margin: 1rem;
+	}
+
+
+    /* product details */
+    .product-detail  .product-details-desc .fa-star,  .product-detail  .product-details-desc .fa-star-half-alt{
+                color: rgb(255, 94, 0);
+            } 
+
+       
+        /* end testimonials carousel */
+
+        /* responsiveness */
+        @media(max-width: 500px){
+            /* navbar */
+            .navbar{
+                font-size:  1rem;
+            }
+
+
+            .hero{
+                font-size:  1rem;
+            }
+
+
+            /* atest arrivals box */
+            .arrivals > .box-container > .box {
+                border: 5px solid red;
+                background: #0984e3;
+                text-decoration: none;
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+ 
+        }
+
+
+        @media(max-width: 470px){
+            /* navbar */
+            .sidebar, .btn-link, .nav-item-to-hide{
+                display: none;
+            } 
+
+
+            /* product detail */
+            .product-detail  .product-details-desc .product__name-price{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
+
+
+            .product-detail  .product-details-desc .product__name-price .product-name{
+                color: #000;
+            }
+        }
+
+
+        @media(max-width: 768px){
+
+            /* navbar styling */
+            .sidebar, .btn-link{
+                display: none;
+            }
+            
+            /* product detail */
+            .product-detail  .product-details-desc {
+                border-top: 0.1rem solid #ccc;
+            } 
+        }
+
+
+
+        @media(max-width: 500px){
+
+            /* navbar styling */
+            .nav-item-to-hide{
+                display: none;
+            }
+            
+            
+        }
+
+
+        @media(min-width: 990px){
+            
+            /* product detail */
+            .product-detail  .product-details-desc {
+                border-left: 0.1rem solid #ccc; 
+                
+            } 
+
+            .product-detail  .product-details-desc .product__name-price{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-end;
+                padding-right: 1rem;
+            }
+        }
+
+
+        {% block style %}{% endblock %}
 
     </style>
 </head>
@@ -517,31 +591,31 @@ body{
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="#">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="profile.html">
+                        <a class="nav-link" href="#">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="table.html">
+                        <a class="nav-link" href="#">
                             <i class="fas fa-table"></i>
                             <span>Table</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html">
+                        <a class="nav-link" href="{% url 'login' %}">
                             <i class="far fa-user-circle"></i>
                             <span>Login</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="register.html">
+                        <a class="nav-link" href="{% url 'signup' %}">
                             <i class="fas fa-user-circle"></i>
                             <span>Register</span>
                         </a>
@@ -556,6 +630,7 @@ body{
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid">
+                        <h2>ModernMan</h2>
                         <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
                             <i class="fas fa-bars"></i>
                         </button>
@@ -591,7 +666,7 @@ body{
                             </li>
 
 
-                            <li class="nav-item dropdown no-arrow mx-1">
+                            <li class="nav-item nav-item-to-hide dropdown no-arrow mx-1">
                                 <div class="nav-item dropdown no-arrow">
                                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
                                         <span class="badge bg-danger badge-counter">0</span>
@@ -648,7 +723,7 @@ body{
 
 
 
-                            <li class="nav-item dropdown no-arrow mx-1">
+                            <li class="nav-item nav-item-to-hide dropdown no-arrow mx-1">
                                 <div class="nav-item dropdown no-arrow">
                                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
                                         <span class="badge bg-danger badge-counter">
@@ -729,77 +804,14 @@ body{
 
 
 
-                            <li class="nav-item dropdown no-arrow mx-1">
+                            <li class="nav-item nav-item-to-hide dropdown no-arrow mx-1">
                                 <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="{% url 'cart' %}">
+                                    <a class="dropdown-toggle nav-link"  href="{% url 'cart' %}">
                                         <span class="badge bg-danger badge-counter">
                                             {{  user|cart_items_count }}
                                         </span>
-                                        <i class="fas  
-                                        fa-shopping-cart  fa-fw h3 text-gray-400"></i>
-                                    </a>
-
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
-                                        <h6 class="dropdown-header">
-                                            alerts center
-                                        </h6>
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3">
-                                                <img class="rounded-circle" src="assets/img/avatars/avatar4.jpeg">
-                                                <div class="bg-success status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate">
-                                                    <span>Hi there! I am wondering if you can help me with a problem I've been having.</span>
-                                                </div>
-                                                <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3">
-                                                <img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
-                                                <div class="status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate">
-                                                    <span>I have the photos that you ordered last month!</span>
-                                                </div>
-                                                <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
-                                            </div>
-                                        </a>
-
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3">
-                                                <img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
-                                                <div class="bg-warning status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate">
-                                                    <span>Last month's report looks great, I am very happy with the progress so far, keep up the good work!</span>
-                                                </div>
-                                                <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
-                                            </div>
-                                        </a>
-
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="dropdown-list-image me-3">
-                                                <img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
-                                                <div class="bg-success status-indicator"></div>
-                                            </div>
-                                            <div class="fw-bold">
-                                                <div class="text-truncate">
-                                                    <span>Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</span>
-                                                </div>
-                                                <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item text-center small text-gray-500" href="{% url 'cart' %}">Show All Alerts</a>
-                                    </div>
+                                        <i class="fas  fa-shopping-cart  fa-fw  text-gray-400"></i>
+                                    </a> 
                                 </div>
 
 
@@ -814,15 +826,37 @@ body{
                             <div class="d-none d-sm-block topbar-divider"></div>
 
 
-                            <li class="nav-item dropdown no-arrow">
+                            <li class="nav-item  dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                                        <span class="d-none d-lg-inline me-2 text-gray-600 small"> {{  user }}</span>
-                                        <img class="border rounded-circle img-profile" src="{{ user.avatar.url }}">
+                                    <a class="dropdown-toggle nav-link " aria-expanded="false" data-bs-toggle="dropdown" href="#"> 
+                                        <i class="fa fa-user-circle " aria-hidden="true" style="font-size: 1.5rem; "></i>
                                     </a>
 
 
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item"  >
+                                            {{ request.user.email.lower }}
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        <a class="dropdown-item" href="{%  url 'cart' %}"> 
+                                            <i class="fas fa-cart-plus   fa-sm fa-fw me-2 text-gray-400  "></i>
+                                            &nbsp;My Cart 
+                                        </a>
+
+                                        {% if not  request.user.is_authenticated %}
+                                            <a class="dropdown-item" href="#">
+                                                <i class="fas fa-user-circle fa-sm fa-fw me-2 text-gray-400"></i>
+                                                &nbsp;Sign Up
+                                            </a>
+
+                                            <a class="dropdown-item" href="#">
+                                                <i class="fas fa-lock fa-sm fa-fw me-2 text-gray-400"></i>
+                                                &nbsp;Log In
+                                            </a>
+                                        {% endif  %}
+
                                         <a class="dropdown-item" href="#">
                                             <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                             &nbsp;Profile
@@ -839,11 +873,13 @@ body{
                                         </a>
 
                                         <div class="dropdown-divider"></div>
-
-                                        <a class="dropdown-item" href="#">
-                                            <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
-                                            &nbsp;Logout
-                                        </a>
+                                        
+                                        {% if request.user.is_authenticated %}
+                                            <a class="dropdown-item" href="{%  url 'logout' %}">
+                                                <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
+                                                &nbsp;Logout
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </li>
@@ -864,11 +900,16 @@ body{
                     {% endblock %}
                 </div>
             </div>
-            <footer class="bg-white sticky-footer">
+            <!-- start bottom testimonials wave --> 
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#000" fill-opacity="1" d="M0,32L48,69.3C96,107,192,181,288,181.3C384,181,480,107,576,85.3C672,64,768,96,864,122.7C960,149,1056,171,1152,176C1248,181,1344,171,1392,165.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg> -->
+            <!-- end bottom testimonials wave -->
+            <footer class="sticky-footer py-5 my-5 "  >
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright">
-                        <span>
-                            Copyright © ModernMan 2022
+                        <span class="text-gray">
+                            &copy; Copyright .2022 .ModernMan
                         </span>
                     </div>
                 </div>

@@ -9,107 +9,192 @@
 
 
 
+
+{% block style %}  
+    .form-control{
+        border: none;
+        width: fit-content; 
+
+    }
+
+    .sidebar{
+        display: none;
+    }
+
+
+    .cart__item--item img { 
+        height: 10em; 
+        object-fit: cover;
+    }
+
+    .cart__item--item .content { 
+        margin-left: 1rem;
+        margin: auto;
+    }
+
+    .cart__item--item  { 
+        position: relative;
+        
+    }
+
+    .cart__item--item .fa-times {
+        color: #ccc; 
+        font-size: 2rem;
+    }
+
+    .cart__item--item .fa-times:hover  {
+        color: rgb(255, 94, 0);
+    }
+
+    .cart__item--item .fa-times{
+            
+        position: absolute;
+        z-index: 3;
+        top:  1em;
+        right: 1em;
+    }
+
+    @media(max-width: 990px){
+
+        .cart__item--item { 
+            justify-content: center; 
+            align-items: center; 
+        }
+        
+        .cart__item--item--img{ 
+            width: 100%;  
+        }
+
+        .cart__item--item .content {  
+            justify-content: center; 
+            align-items: center; 
+        }
+
+
+        .cart__item--item .content form {  
+            display: flex;
+            width: 100%; 
+        }
+
+
+         
+
+        .cart__item--item img {  
+            border: none;
+            width: 100%;
+        }
+
+
+        .cart__item--item{
+            flex-direction: column;
+            position: relative;
+        }
+
+        .cart__item--item .fa-times{
+            
+            position: absolute;
+            top:  1em;
+            right: 1em;
+            
+        }
+
+        
+
+
+    }
+ 
+{% endblock  %}
+
+
+
 {% block content %} 
-
-    <h1 class="heading section__heading mb-5 ">My  shoppping <span>Cart</span></h1>
-
-    <!-- shopping cart section starts  -->
-
-    <section class="shopping-cart">
-        <div class="box-container">
-            {% if formset %}
-                {{ formset.management_form }}
-
-                {% for form in formset %}
-
-                    <!-- template renders the product name, 
-                    (excluded by the form), by accessing the model 
-                    directly through instance  -->
-
-                    <div class="box ">
-                        <a href="{{  form.instance.product.get_remove_from_cart_url }}">
-                            <i class="fas fa-times"></i>
-                        </a> 
-                        <a href="{{ form.instance.product.get_absolute_url }}">   
-                            <img src="{% static 'img/products/product-1.jpg' %}" alt="">
-                            {{ form.instance.product.thumbnail }}
-                        </a>
-                        
-
-                        <div class="content">
-                            <h3>{{ form.instance.product.name }}</h3>
-                            <form method="post">
-                                {% csrf_token %}
-                                <!--  
-                                    A requisite for formsets to work is to render 
-                                    the management_form attribute in the template  
-                                -->
-                                <span>quantity : </span>
-                                <span class="text-center">{{ form.quantity }}</span>
-                            </form>
-                            <div class="price">
-                                Ksh {{ form.instance.product.discount_price }}
-                                <span>Ksh {{ form.instance.product.price }}</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                {% endfor %}
-        </div>
-
-
-        <button type="submit" class="btn-lg btn  mt-3">
-            Update Cart
-        </button>
-
-
-        <div class="cart-total">
-            <h3> subtotal : <span class="text-gray">$1499.94</span> </h3>
-            <h3> discount : <span>-$99.94</span> </h3>
-            <h3> subtotal : <span>$1400.00</span> </h3>
-
-            <div class="row">
-                <div class="col-5">
-                    <hr>
-                </div>
-                <div class="col text-center">To complete Order </div>
-                <div class="col-5">
-                    <hr>
-                </div>
+<div class="container-fluid ">
+    <div class="row" >
+        <div class="col-lg-7 col-md-12 bg-white   shadow py-5 mb-5 mx-3"   style="border-radius: 5px; border: 2px solid #000;">
+            <div class="section__header gb-gray border-bottom mb-4">
+                <b>Cart Items</b>
             </div>
 
-            {% if erquest.user.is_authenticated %}
-                <div>
-                    <a href="#" class="btn">Check Out</a>
-                </div>   
-            {% else  %}
+            {% if formset %}
+                {{ formset.management_form }} 
+                {% for form in formset %}
+                    <div class="cart__item mb-3 shadow br-5"  style="border-radius: 5px; ">
+                        <div class="d-flex cart__item--item container ">
+                            <a href="{{ form.instance.product.get_absolute_url }}" class="border br-5 m-2 my-3 cart__item--img" style=" border-radius: 5px; ">   
+                                <img src="{% static 'img/products/product-1.jpg' %}" alt="" class="img-fluid" style="object-fit: contain;">
+                                {{ form.instance.product.thumbnail }}
+                            </a>
 
-                <div class="row">
-                    <a href="#" class="btn col">
-                        Sign Up
-                    </a>
-                    
-                    <a href="{% url 'login' %}"  class="btn col">
-                        Log In
-                    </a>
-                </div>    
+                            <div class="content py-4">
+                                <h3 class="text-gray">{{ form.instance.product.name }}</h3>
+                                <form method="post" class="form ">
+                                    {% csrf_token %}
+                                    <!--  
+                                        A requisite for formsets to work is to render 
+                                        the management_form attribute in the template  
+                                    -->
+                                    <div class="form-group ">
+                                        <label for="#">Quantity: </label>
+                                        <span class="form-control" style="display: inline;">{{ form.quantity }}</span>
+                                    </div> 
+                                </form>
+                                <div class="price">
+                                    Ksh {{ form.instance.product.discount_price }}
+                                    <span style="text-decoration: line-through; font-size: 0.8rem; color: rgb(255, 94, 0);">Ksh {{ form.instance.product.price }}</span>
+                                </div>
+                            </div>
+
+                            
+                            <a href="{{  form.instance.product.get_remove_from_cart_url }}" title="remove {{ form.instance.product.name }}">
+                                <i class="fas fa-times text-gray text-hover-orange"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                    <div class="text-center py-5">
+                        <span class="fw-bold">Cart Empty!</span> <br>
+                        <i class="fas fa-cart-arrow-down    "></i>
+                    </div>
             {% endif %}
+
         </div>
 
-        {% else %}
-        <div class="text-center">
-            <p>Your cart is empty.</p>
-            <br>
-            <i class="fas  fa-shopping-cart  fa-fw h4 text-gray-400" ></i>
+        <div class="col-lg-4 col-md-12 bg-white   shadow py-5 mx-auto"  style="border-radius: 5px; border: 2px solid #000;  height: fit-content;">
+            <div class="section__header gb-gray border-bottom">
+                <b>Summary</b>
+            </div>
+
+            <div class="cart-total py-5 mb-3 "  >
+                <h3  style="text-decoration: line-through;" > subtotal : <span class="text-orange">$1499.94</span> </h3>
+                <h3> discount : <span>-$99.94</span> </h3>
+                <h3  style="  color: rgb(255, 94, 0); font-weight: 600;"> subtotal : <span>$1400.00</span> </h3>
+    
+                <div class="row"> 
+                        <hr>   
+                </div>
+    
+                {% if request.user.is_authenticated %}
+                    <div>
+                        <a href="{% url 'select-payment' %}" class="btn px-5">
+                            Check Out <i class="fas fa-arrow-right mx-3"></i>
+                        </a>
+                    </div>   
+                {% else  %}
+    
+                    <div class="row">
+                        <a href="{% url 'signup' %}" class="btn col">
+                            Sign Up
+                        </a>
+                        
+                        <a href="{% url 'login' %}"  class="btn col">
+                            Log In
+                        </a>
+                    </div>    
+                {% endif %}
+            </div>
+
         </div>
-        {% endif %}
-
-    </section>
-
-    <!-- shopping cart section ends -->
-
-
-
-
+    </div>
+</div>
 {% endblock  %}

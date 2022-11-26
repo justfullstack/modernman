@@ -348,9 +348,8 @@ class Cart(models.Model):
 
     def createOrder(self, billing_address, shipping_address):
         '''creates an order from the cotents of the cart'''
-        if not self.user:
-            raise exceptions.CartException(
-                'Cannot create order withouta user!')
+        if self.user is None:
+            raise ValueError('Cannot create order without a user! You must be logged in.')
 
         logger.info(
             f'Creating order for cart {self.id} , shipping_address_id={shipping_address.id}, billing_address_id={billing_address.id}')

@@ -3,14 +3,38 @@
 
 
 {% block content %}
-	<form method="POST" class="border"> {% csrf_token %}
-		{{ form }}
+	<div class="section__heading">
+		Select Addresses
+	</div>
 
-		<button type="submit" class="btn">
-			Select Address
-		</button>
-		<a href="{% url 'create-address' %}" class="btn">
-			Add New Address
-		</a>
+	<hr>
+
+	<form method="POST" class="form "> {% csrf_token %}
+		<!-- {{ form.as_div }} -->
+		<div class="form-group mb-3">
+			<label for="billing-address" class="text-gray">Billing  Address: </label>
+			<div class="form-control">
+				{{ form.billing_address }}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="shipping-address" class="text-gray">Shipping Address: </label>
+			<div class="form-control">
+				{{ form.shipping_address }}
+			</div>
+		</div>
+
+
+		<hr>
+
+		<div class="mt-3 gap-2">
+			<button type="submit" class="btn">
+				Select Address
+			</button>
+			<a href="{% url 'create-address' %}" class="btn">
+				Add New Address
+			</a>
+		</div>
 	</form>
 {% endblock %}

@@ -118,15 +118,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images) 
-# STATIC_URL = "/static/"
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/static")]
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Deployment: path to the directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = BASE_DIR/'static'
+# STATIC_ROOT = BASE_DIR/'static'
 
 # The URL to use when referring to static files (where they will be served from)
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 # media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -257,7 +257,7 @@ ALLOWED_HOSTS = ['railway.com' 'web-production-3640.up.railway.app', '127.0.0.1'
 
 
 # During development/for this tutorial you can instead set just the base URL
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', '127.0.0.1'] 
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'https://127.0.0.1', 'http://127.0.0.1'] 
 
 
 
