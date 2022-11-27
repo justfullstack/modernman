@@ -3,13 +3,18 @@ import os
 from django.contrib import messages
 from pathlib import Path 
 
+# read data from .env file
+from dotenv import load_dotenv
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
  
 
-# Read SECRET_KEY from an environment variable 
-import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+# Read SECRET_KEY from an environment variable  
+SECRET_KEY = os.getenv("SECRET_KEY")
+# SECRET_KEY = os.environ.get('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 
 #   OR

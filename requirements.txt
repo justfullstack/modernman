@@ -17,4 +17,4 @@ django-heroku
 dj-database-url
 gunicorn
 psycopg2-binary
-wheel
+wheelpython-dotenv

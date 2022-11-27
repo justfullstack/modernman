@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn cjndev-modernman.wsgi
+web: python manage.py migrate && gunicorn modernman.wsgi
