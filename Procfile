@@ -1,1 +1,2 @@
-web: python manage.py migrate && gunicorn modernman.wsgi
+python manage.py migrate && gunicorn modernman.wsgi
+

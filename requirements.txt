@@ -1,4 +1,4 @@
-
+setuptools
 pipenv 
 Django==4.1.3
 django-countries==7.4.2

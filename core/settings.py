@@ -3,14 +3,17 @@ import os
 from django.contrib import messages
 from pathlib import Path 
 
-# read data from .env file
-from dotenv import load_dotenv
-BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
  
+
+# read data from .env file
+from dotenv import load_dotenv 
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+
+
 
 # Read SECRET_KEY from an environment variable  
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -56,6 +59,8 @@ MIDDLEWARE = [
     'shop.middlewares.cart_middleware'
 ]
 
+
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -77,9 +82,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-# Database 
+# Devt Database 
 
-DATABASES = {
+if DEBUG:
+    DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "modernman",
@@ -89,6 +95,8 @@ DATABASES = {
         "client_encoding": "UTF8"
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -122,10 +130,12 @@ USE_TZ = True
 
 
 
-# Static files (CSS, JavaScript, Images) 
-STATIC_URL = "/static/"
+# static files (CSS, JavaScript, Images) 
+STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "core/static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
 
 # Deployment: path to the directory where collectstatic will collect static files for deployment.
 # STATIC_ROOT = BASE_DIR/'static'
@@ -234,7 +244,7 @@ LOGGING = {
 }
 
 # debug logging   is very verbose as it includes all database queries
-DJANGO_LOG_LEVEL = DEBUG
+DJANGO_LOG_LEVEL = INFO
 
 
 # custom user model
@@ -254,7 +264,7 @@ LOG_OUT_REDIRECT_URL = 'login'
 SESSION_COOKIE_SECURE = True
 
 # ALLOWED_HOSTS = ['web-production-3640.up.railway.app', '127.0.0.1'] 
-ALLOWED_HOSTS = ['railway.com' 'web-production-3640.up.railway.app', '127.0.0.1'] 
+ALLOWED_HOSTS = ['*'] 
 
 
 ## (replace the string below with your own site URL):
@@ -262,12 +272,15 @@ ALLOWED_HOSTS = ['railway.com' 'web-production-3640.up.railway.app', '127.0.0.1'
 
 
 # During development/for this tutorial you can instead set just the base URL
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'https://127.0.0.1', 'http://127.0.0.1'] 
+CSRF_TRUSTED_ORIGINS = ['*' ] 
 
 
 
 # Update database configuration from $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+if not DEBUG:
+    import dj_database_url
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    db_from_env = dj_database_url.config(conn_max_age=1800)
+    DATABASES['default'].update(db_from_env)
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

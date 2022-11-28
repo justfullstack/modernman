@@ -1,0 +1,92 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-transform: none;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+}
+
+body {
+    font-size: 1.5em;
+}
+
+
+/*==================    GENERAL STYLING STARTS ====================*/
+.btn {
+    background: #000;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: rgb(255, 140, 0);
+}
+
+.btn:active {
+    scale: 0.98;
+}
+
+
+.section__heading {
+    font-weight: 800;
+    margin: 0.7em 0;
+    color: rgb(255, 152, 34);
+    font-size: 3.2em;
+
+}
+
+/*==================    GENERAL STYLING ENDS ====================*/
+
+
+/*==================    NAV STYLING STARTS ====================*/
+
+/*==================    NAV STYLING ENDS ====================*/
+
+
+
+
+/*==================    PRODUCT LIST STARTS ====================*/
+
+/*==================    PRODUCT LIST ENDS ====================*/
+
+
+
+
+
+
+
+
+
+
+/*==================    PRODUCT CATEGORY STARTS ====================*/
+
+
+/*==================    PRODUCT CATEGORY STYLING ENDS ====================*/
+
+
+
+
+
+/*==================   REVIEW STYLING STARTS ====================*/
+
+/*==================   REVIEW   STYLING ENDS ====================*/
+
+
+
+
+/*==================   FOOTER STYLING STARTS ====================*/
+
+/*==================  FOOTER STYLING ENDS ====================*/
+
+
+
+/*==================  ADDRESS LIST STYLING STARTS ====================*/
+
+/*==================  ADDRESS LIST STYLING ENDS ====================*/
