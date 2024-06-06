@@ -192,59 +192,59 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugTrue',
         },
     },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['require_debug_true']
-        },
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'formatter': 'verbose',
-            'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
-        }
-    },
+    # 'handlers': {
+    #     'console': {
+    #         'level': 'INFO',
+    #         'filters': ['require_debug_true'],
+    #         'class': 'logging.StreamHandler',
+    #         'formatter': 'verbose'
+    #     },
+    #     'mail_admins': {
+    #         'level': 'ERROR',
+    #         'class': 'django.utils.log.AdminEmailHandler',
+    #         'filters': ['require_debug_true']
+    #     },
+    #     'file': {
+    #         'level': 'ERROR',
+    #         'class': 'logging.FileHandler',
+    #         'formatter': 'verbose',
+    #         'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
+    #     }
+    # },
 
 
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
+    # 'loggers': {
+    #     'django': {
+    #         'handlers': ['console'],
+    #         'level': 'INFO',
+    #         'propagate': True,
+    #     },
+    #     'django.request': {
+    #         'handlers': ['console'],
+    #         'level': 'DEBUG',
+    #         'propagate': True,
 
-        },
-        'django.server': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': False,
+    #     },
+    #     'django.server': {
+    #         'handlers': ['console'],
+    #         'level': 'ERROR',
+    #         'propagate': False,
 
-        },
-        'modernman_final.custom': {
-            'handlers': ['file'],
-            'formatter': 'verbose',
-            'level': 'ERROR',
-            'filters': ['require_debug_true'],
-            'formatter': 'verbose',
-            'propagate': True,
+    #     },
+    #     'modernman_final.custom': {
+    #         'handlers': ['file'],
+    #         'formatter': 'verbose',
+    #         'level': 'ERROR',
+    #         'filters': ['require_debug_true'],
+    #         'formatter': 'verbose',
+    #         'propagate': True,
 
-        },
-    },
+    #     },
+    # },
 }
 
 # debug logging   is very verbose as it includes all database queries
-DJANGO_LOG_LEVEL = INFO
+DJANGO_LOG_LEVEL = "INFO"
 
 
 # custom user model
