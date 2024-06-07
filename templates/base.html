@@ -838,12 +838,12 @@ body{
                                             {{ request.user.email.lower }}
                                         </a>
 
-                                        <div class="dropdown-divider"></div>
-
                                         <a class="dropdown-item" href="{%  url 'cart' %}"> 
                                             <i class="fas fa-cart-plus   fa-sm fa-fw me-2 text-gray-400  "></i>
                                             &nbsp;My Cart 
                                         </a>
+
+                                        <div class="dropdown-divider"></div>
 
                                         {% if not  request.user.is_authenticated %}
                                             <a class="dropdown-item" href="#">

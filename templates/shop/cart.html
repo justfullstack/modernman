@@ -167,8 +167,12 @@
 
             <div class="cart-total py-5 mb-3 "  >
                 <h3  style="text-decoration: line-through;" > subtotal : <span class="text-orange">$1499.94</span> </h3>
+                
                 <h3> discount : <span>-$99.94</span> </h3>
-                <h3  style="  color: rgb(255, 94, 0); font-weight: 600;"> subtotal : <span>$1400.00</span> </h3>
+                
+                <h3  style="  color: rgb(255, 94, 0); font-weight: 600;"> 
+                    subtotal : <span>$1400.00</span> 
+                </h3>
     
                 <div class="row"> 
                         <hr>   
@@ -177,14 +181,14 @@
                 {% if request.user.is_authenticated %}
                     <div>
                         <a href="{% url 'select-payment' %}" class="btn px-5">
-                            Check Out <i class="fas fa-arrow-right mx-3"></i>
+                            Proceed <i class="fas fa-arrow-right mx-3"></i>
                         </a>
                     </div>   
                 {% else  %}
     
-                    <div class="row">
+                    <div class="w-100">
                         <a href="{% url 'signup' %}" class="btn col">
-                            Sign Up
+                            Sign Ups
                         </a>
                         
                         <a href="{% url 'login' %}"  class="btn col">

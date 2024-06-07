@@ -16,8 +16,8 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 # Read SECRET_KEY from an environment variable  
-SECRET_KEY = os.getenv("SECRET_KEY")
-# SECRET_KEY = os.environ.get('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+# SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 
 #   OR
@@ -28,8 +28,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = True
+# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 # ALLOWED_HOSTS = [ "*" ]
 
@@ -90,7 +90,7 @@ if DEBUG:
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "modernman",
         "USER": "postgres",
-        "PASSWORD": "sweetpoison",
+        "PASSWORD": "root",
         "HOST": "localhost",
         "client_encoding": "UTF8"
     }
@@ -192,6 +192,9 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugTrue',
         },
     },
+
+
+
     # 'handlers': {
     #     'console': {
     #         'level': 'INFO',
@@ -269,11 +272,6 @@ ALLOWED_HOSTS = ['*']
 
 ## (replace the string below with your own site URL):
 # CSRF_TRUSTED_ORIGINS = ['https://web-production-3640.up.railway.app']
-
-
-# During development/for this tutorial you can instead set just the base URL
-CSRF_TRUSTED_ORIGINS = ['*' ] 
-
 
 
 # Update database configuration from $DATABASE_URL.
