@@ -46,8 +46,8 @@ class Product(models.Model):
         max_digits=8, decimal_places=2, blank=True, default=0.00)
     rating = models.DecimalField('ratings', max_digits=4, decimal_places=2, default=0.00, validators=[
                                  MaxValueValidator(5.00, 'Ratings must be between 1 and 5.')])
-    stock_count = models.IntegerField(blank=False, default=1)
-    slug = models.SlugField(max_length=48, unique=True, blank=False)
+    stock_count = models.IntegerField(blank=False, default=1) 
+    slug = models.SlugField(blank=True, null=True)
     active = models.BooleanField(default=True)
     on_sale = models.BooleanField(default=False)
     date_uploaded = models.DateTimeField(auto_now=True)

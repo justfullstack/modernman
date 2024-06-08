@@ -13,8 +13,7 @@ logger = logging.getLogger(__name__)
 class ProductAdmin(admin.ModelAdmin):
 
     fieldsets = (
-
-
+ 
 
         ('Product Details', {
             'fields': (
@@ -22,7 +21,7 @@ class ProductAdmin(admin.ModelAdmin):
                 'name',
                 'description',
                 'rating',
-                'active'
+                'active', 
             )
         }
         ),
@@ -47,7 +46,8 @@ class ProductAdmin(admin.ModelAdmin):
                     'description',
                     'rating',
                     'price',
-                    'discount_price',
+                    'discount_price', 
+                    'slug'
 
                 )
             },
@@ -55,7 +55,7 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     list_display = ('id', 'stock_count', 'name',  'price',
-                    'discount_price', 'rating', 'slug')
+                    'discount_price', 'rating' , 'slug')
 
     list_filter = ('active',   'on_sale',  'rating')
 
@@ -64,7 +64,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
 
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name", "id")} 
 
     # slug is an important field for our site, it is used in
     # all the product URLs. We want to limit the ability to

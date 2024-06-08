@@ -15,5 +15,5 @@ CartLineFormSet = inlineformset_factory(
     CartLine,
     fields=("quantity",),
     extra=0,
-    #widgets={"quantity": widgets.PlusMinusWidget()},
+    # widgets={"quantity": widgets.PlusMinusWidget()},
 )

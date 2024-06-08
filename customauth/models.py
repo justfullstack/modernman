@@ -201,3 +201,7 @@ class CustomUser(AbstractBaseUser):
             and self.groups.filter(name="Dispatchers").exists()
         )
         super().save(*args, **kwargs)
+
+
+
+ 
