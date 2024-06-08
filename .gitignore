@@ -189,3 +189,10 @@ secret_key.txt
 
 # Text backup files
 *.bak
+
+
+
+
+
+# ignore key files
+*.pem
